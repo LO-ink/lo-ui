@@ -1,0 +1,109 @@
+:where(.lo-ui-root) {
+  color-scheme: light;
+  --lo-color-canvas: #f5f7fa;
+  --lo-color-surface: #ffffff;
+  --lo-color-surface-raised: #ffffff;
+  --lo-color-text: #171a21;
+  --lo-color-text-secondary: #626875;
+  --lo-color-border: #dfe3ea;
+  --lo-color-border-subtle: #edf0f4;
+  --lo-color-accent: #5064e8;
+  --lo-color-accent-hover: #4053d0;
+  --lo-color-accent-contrast: #ffffff;
+  --lo-color-accent-soft: #eef0ff;
+  --lo-color-danger: #c93642;
+  --lo-color-danger-hover: #ab2d37;
+  --lo-color-danger-soft: #fff0f1;
+  --lo-color-focus: #7182f2;
+  --lo-color-disabled: #9ca2ae;
+  --lo-shadow-raised: 0 8px 24px rgb(26 31 44 / 8%);
+
+  --lo-space-0: 0;
+  --lo-space-1: 4px;
+  --lo-space-2: 8px;
+  --lo-space-3: 12px;
+  --lo-space-4: 16px;
+  --lo-space-5: 20px;
+  --lo-space-6: 24px;
+  --lo-space-8: 32px;
+  --lo-space-10: 40px;
+
+  --lo-size-control-sm: 44px;
+  --lo-size-control: 44px;
+  --lo-size-cell: 60px;
+  --lo-size-content: 640px;
+
+  --lo-radius-sm: 10px;
+  --lo-radius-md: 14px;
+  --lo-radius-lg: 20px;
+  --lo-radius-full: 999px;
+
+  --lo-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --lo-font-size-caption: 12px;
+  --lo-font-size-label: 14px;
+  --lo-font-size-body: 16px;
+  --lo-font-size-title: 20px;
+  --lo-font-weight-regular: 400;
+  --lo-font-weight-medium: 600;
+  --lo-font-weight-bold: 700;
+  --lo-line-height-tight: 1.25;
+  --lo-line-height-body: 1.5;
+
+  --lo-motion-fast: 120ms;
+  --lo-motion-normal: 180ms;
+  --lo-ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+:where(.lo-ui-root[data-lo-theme="dark"]) {
+  color-scheme: dark;
+  --lo-color-canvas: #111318;
+  --lo-color-surface: #1a1d24;
+  --lo-color-surface-raised: #20242c;
+  --lo-color-text: #f4f5f7;
+  --lo-color-text-secondary: #aeb3bd;
+  --lo-color-border: #353a45;
+  --lo-color-border-subtle: #292d36;
+  --lo-color-accent: #8d9cff;
+  --lo-color-accent-hover: #a4b0ff;
+  --lo-color-accent-contrast: #111528;
+  --lo-color-accent-soft: #262d56;
+  --lo-color-danger: #ff8c96;
+  --lo-color-danger-hover: #ffa4ad;
+  --lo-color-danger-soft: #44242a;
+  --lo-color-focus: #a4b0ff;
+  --lo-color-disabled: #737985;
+  --lo-shadow-raised: 0 8px 28px rgb(0 0 0 / 24%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :where(
+    .lo-ui-root:not([data-lo-theme]),
+    .lo-ui-root[data-lo-theme="system"]
+  ) {
+    color-scheme: dark;
+    --lo-color-canvas: #111318;
+    --lo-color-surface: #1a1d24;
+    --lo-color-surface-raised: #20242c;
+    --lo-color-text: #f4f5f7;
+    --lo-color-text-secondary: #aeb3bd;
+    --lo-color-border: #353a45;
+    --lo-color-border-subtle: #292d36;
+    --lo-color-accent: #8d9cff;
+    --lo-color-accent-hover: #a4b0ff;
+    --lo-color-accent-contrast: #111528;
+    --lo-color-accent-soft: #262d56;
+    --lo-color-danger: #ff8c96;
+    --lo-color-danger-hover: #ffa4ad;
+    --lo-color-danger-soft: #44242a;
+    --lo-color-focus: #a4b0ff;
+    --lo-color-disabled: #737985;
+    --lo-shadow-raised: 0 8px 28px rgb(0 0 0 / 24%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(.lo-ui-root) {
+    --lo-motion-fast: 0ms;
+    --lo-motion-normal: 0ms;
+  }
+}
