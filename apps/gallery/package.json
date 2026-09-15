@@ -9,8 +9,8 @@
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
-    "@lo/design-tokens": "0.1.0",
-    "@lo/ui": "0.1.0",
+    "@lo-ink/design-tokens": "0.1.0",
+    "@lo-ink/ui": "0.1.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   }

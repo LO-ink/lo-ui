@@ -1,4 +1,4 @@
-@import "@lo/design-tokens/tokens.css";
+@import "@lo-ink/design-tokens/tokens.css";
 
 :where(.lo-ui-root) {
   font-family: var(--lo-font-family);

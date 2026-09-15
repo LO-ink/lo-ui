@@ -4,22 +4,22 @@ Small, accessible React components for LO miniapps. The library contains present
 
 ## Packages
 
-- `@lo/design-tokens` — semantic color, spacing, size, radius, type, and motion tokens for light and dark themes.
-- `@lo/ui` — React controls and layout primitives styled by those tokens.
+- `@lo-ink/design-tokens` — semantic color, spacing, size, radius, type, and motion tokens for light and dark themes.
+- `@lo-ink/ui` — React controls and layout primitives styled by those tokens.
 
 React 18 and 19 are supported. Components use native buttons and inputs, visible focus states, 44px minimum action targets, and reduced-motion preferences.
 
 ## Install
 
 ```sh
-npm install @lo/ui @lo/design-tokens
+npm install @lo-ink/ui @lo-ink/design-tokens
 ```
 
 Import the stylesheet once, then put the scope class on the part of the page that uses the components. With no `data-lo-theme`, the theme follows the operating system.
 
 ```tsx
-import { Button, Cell, List, Switch, TextField } from "@lo/ui";
-import "@lo/ui/styles.css";
+import { Button, Cell, List, Switch, TextField } from "@lo-ink/ui";
+import "@lo-ink/ui/styles.css";
 
 export function Settings() {
   return (

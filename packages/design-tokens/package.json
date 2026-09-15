@@ -1,5 +1,5 @@
 {
-  "name": "@lo/design-tokens",
+  "name": "@lo-ink/design-tokens",
   "version": "0.1.0",
   "description": "Semantic design tokens for LO web interfaces",
   "type": "module",
