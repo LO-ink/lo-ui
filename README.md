@@ -64,6 +64,8 @@ npm install
 npm run dev       # gallery at http://127.0.0.1:5173
 npm run typecheck
 npm test
+npx playwright install chromium
+npm run test:browser
 npm run ci
 ```
 
