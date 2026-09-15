@@ -74,7 +74,7 @@ describe("List", () => {
         <Cell
           title="Wishlist"
           onPress={open}
-          trailing={<Button onClick={remove}>Remove</Button>}
+          trailingAction={<Button onClick={remove}>Remove</Button>}
         />
       </List>,
     );
@@ -95,5 +95,25 @@ describe("List", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /Birthday/ }));
     expect(onPress).toHaveBeenCalledOnce();
+  });
+  it("includes trailing metadata in the row action and its accessible name", () => {
+    const onPress = vi.fn();
+    render(
+      <List label="Appearance settings">
+        <Cell title="Appearance" trailing="Dark" onPress={onPress} />
+      </List>,
+    );
+
+    expect(
+      screen.getByRole("list", { name: "Appearance settings" }),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Appearance Dark" }));
+    expect(onPress).toHaveBeenCalledOnce();
+  });
+  it("preserves an explicit accessible list name", () => {
+    render(<List label="Visual heading" aria-label="Saved lists" />);
+    expect(
+      screen.getByRole("list", { name: "Saved lists" }),
+    ).toBeInTheDocument();
   });
 });

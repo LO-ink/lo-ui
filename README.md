@@ -33,7 +33,7 @@ export function Settings() {
         <Cell
           title="Updates"
           subtitle="Let me know when a saved item changes"
-          trailing={<Switch label="Updates" />}
+          trailingAction={<Switch label="Updates" labelHidden />}
         />
       </List>
 
@@ -54,6 +54,8 @@ Set `data-lo-theme="light"` or `data-lo-theme="dark"` for an explicit theme. App
 ```
 
 The initial component set is `Button`, `TextField`, `Switch`, `Checkbox`, `List`, `Cell`, `AppIcon`, `EmptyState`, `Stack`, `Inline`, `Heading`, and `Text`.
+
+Use `Cell.trailing` for read-only status or metadata that belongs to the row action. Use `Cell.trailingAction` for a switch, checkbox, button, or other independently operable control; it is rendered as a sibling so interactive elements are never nested.
 
 ## Development
 

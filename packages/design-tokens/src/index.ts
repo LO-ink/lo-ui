@@ -11,7 +11,7 @@ export const spacing = {
 } as const;
 
 export const sizes = {
-  controlSmall: "36px",
+  controlSmall: "44px",
   control: "44px",
   cell: "60px",
   content: "640px",

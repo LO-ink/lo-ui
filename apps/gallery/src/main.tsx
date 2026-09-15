@@ -116,7 +116,7 @@ function App() {
               <Cell
                 title="Notifications"
                 subtitle="Updates when a saved item changes"
-                trailing={
+                trailingAction={
                   <Switch
                     label="Notifications"
                     labelHidden
@@ -128,7 +128,7 @@ function App() {
               <Cell
                 title="Private list"
                 subtitle="Only invited people can open it"
-                trailing={
+                trailingAction={
                   <Checkbox
                     label="Private list"
                     labelHidden

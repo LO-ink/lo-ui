@@ -1,15 +1,35 @@
-import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
+import { forwardRef, useId, type HTMLAttributes, type ReactNode } from "react";
 import { classes } from "./utils.js";
 
 export interface ListProps extends HTMLAttributes<HTMLUListElement> {
   label?: ReactNode;
 }
 
-export function List({ label, children, className, ...props }: ListProps) {
+export function List({
+  label,
+  children,
+  className,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  ...props
+}: ListProps) {
+  const generatedId = useId();
+  const labelId = label ? `${generatedId}-label` : undefined;
+  const effectiveLabelledBy =
+    ariaLabelledBy ?? (ariaLabel === undefined ? labelId : undefined);
   return (
     <section className="lo-ui-list-section">
-      {label && <h2 className="lo-ui-list-label">{label}</h2>}
-      <ul {...props} className={classes("lo-ui-list", className)}>
+      {label && (
+        <h2 className="lo-ui-list-label" id={labelId}>
+          {label}
+        </h2>
+      )}
+      <ul
+        {...props}
+        aria-label={ariaLabel}
+        aria-labelledby={effectiveLabelledBy}
+        className={classes("lo-ui-list", className)}
+      >
         {children}
       </ul>
     </section>
@@ -23,7 +43,10 @@ export interface CellProps extends Omit<
   title: ReactNode;
   subtitle?: ReactNode;
   leading?: ReactNode;
+  /** Noninteractive metadata included in the row action and its accessible name. */
   trailing?: ReactNode;
+  /** An independently operable control rendered beside the row action. */
+  trailingAction?: ReactNode;
   onPress?: () => void;
   disabled?: boolean;
 }
@@ -34,6 +57,7 @@ export const Cell = forwardRef<HTMLLIElement, CellProps>(function Cell(
     subtitle,
     leading,
     trailing,
+    trailingAction,
     onPress,
     disabled = false,
     className,
@@ -48,7 +72,8 @@ export const Cell = forwardRef<HTMLLIElement, CellProps>(function Cell(
         <span className="lo-ui-cell__title">{title}</span>
         {subtitle && <span className="lo-ui-cell__subtitle">{subtitle}</span>}
       </span>
-      {onPress && !trailing && (
+      {trailing && <span className="lo-ui-cell__trailing">{trailing}</span>}
+      {onPress && !trailing && !trailingAction && (
         <svg
           className="lo-ui-cell__chevron"
           viewBox="0 0 20 20"
@@ -62,23 +87,28 @@ export const Cell = forwardRef<HTMLLIElement, CellProps>(function Cell(
 
   return (
     <li {...props} ref={ref} className={classes("lo-ui-cell", className)}>
-      {onPress ? (
+      {onPress || trailingAction ? (
         <div className="lo-ui-cell__actions">
-          <button
-            className="lo-ui-cell__control"
-            type="button"
-            onClick={onPress}
-            disabled={disabled}
-          >
-            {content}
-          </button>
-          {trailing && <span className="lo-ui-cell__trailing">{trailing}</span>}
+          {onPress ? (
+            <button
+              className="lo-ui-cell__control"
+              type="button"
+              onClick={onPress}
+              disabled={disabled}
+            >
+              {content}
+            </button>
+          ) : (
+            <div className="lo-ui-cell__content">{content}</div>
+          )}
+          {trailingAction && (
+            <span className="lo-ui-cell__trailing-action">
+              {trailingAction}
+            </span>
+          )}
         </div>
       ) : (
-        <div className="lo-ui-cell__content">
-          {content}
-          {trailing && <span className="lo-ui-cell__trailing">{trailing}</span>}
-        </div>
+        <div className="lo-ui-cell__content">{content}</div>
       )}
     </li>
   );
