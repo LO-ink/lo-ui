@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "dev": "npm run build -w @lo/design-tokens && npm run build -w @lo/ui && npm run dev -w @lo/ui-gallery",
+    "dev": "npm run build -w @lo-ink/design-tokens && npm run build -w @lo-ink/ui && npm run dev -w @lo/ui-gallery",
     "test": "npm run build && vitest run",
     "test:browser": "playwright test",
     "typecheck": "tsc -b --pretty false",

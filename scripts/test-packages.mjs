@@ -100,7 +100,7 @@ try {
     join(consumer, "check.mjs"),
     `import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Button, Cell, List } from '@lo/ui';
+import { Button, Cell, List } from '@lo-ink/ui';
 const html = renderToStaticMarkup(createElement(List, null, createElement(Cell, {title:'Saved app', trailingAction:createElement(Button,null,'Open')})));
 if (!html.includes('Saved app') || !html.includes('Open')) throw new Error('Render failed');
 `,
@@ -108,7 +108,7 @@ if (!html.includes('Saved app') || !html.includes('Open')) throw new Error('Rend
   run(process.execPath, ["check.mjs"], consumer);
   await writeFile(
     join(consumer, "check.tsx"),
-    `import {Button, Cell, List, Switch} from '@lo/ui';
+    `import {Button, Cell, List, Switch} from '@lo-ink/ui';
 const ui = <List><Cell title="Preferences" trailingAction={<Switch label="Updates" />} /><Cell title="App" onPress={() => {}} trailingAction={<Button>Open</Button>} /></List>;
 void ui;
 `,
@@ -139,7 +139,7 @@ void ui;
   );
   await writeFile(
     join(consumer, "styles-smoke.js"),
-    'import "@lo/ui/styles.css";\n',
+    'import "@lo-ink/ui/styles.css";\n',
   );
   run(
     process.execPath,
@@ -198,7 +198,7 @@ void ui;
     join(react18Consumer, "check.mjs"),
     `import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Switch } from '@lo/ui';
+import { Switch } from '@lo-ink/ui';
 const html = renderToStaticMarkup(createElement(Switch, {label:'Updates'}));
 if (!html.includes('Updates')) throw new Error('React 18 render failed');
 `,
@@ -206,7 +206,7 @@ if (!html.includes('Updates')) throw new Error('React 18 render failed');
   run(process.execPath, ["--preserve-symlinks", "check.mjs"], react18Consumer);
   await writeFile(
     join(react18Consumer, "check.tsx"),
-    `import {Button, Cell, List, Switch} from '@lo/ui';
+    `import {Button, Cell, List, Switch} from '@lo-ink/ui';
 const ui = <List><Cell title="Preferences" trailingAction={<Switch label="Updates" />} /><Cell title="App" trailing="Current" onPress={() => {}} /><Button>Open</Button></List>;
 void ui;
 `,

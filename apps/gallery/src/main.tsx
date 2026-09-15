@@ -13,8 +13,8 @@ import {
   Switch,
   Text,
   TextField,
-} from "@lo/ui";
-import "@lo/ui/styles.css";
+} from "@lo-ink/ui";
+import "@lo-ink/ui/styles.css";
 import "./gallery.css";
 
 function GiftIcon() {
