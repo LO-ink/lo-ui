@@ -199,6 +199,7 @@ function App() {
             description="Add your first idea so it is easy to find later."
             action={<Button size="small">Add an idea</Button>}
           />
+          <EmptyState title="No additional items" />
         </section>
       </div>
     </main>

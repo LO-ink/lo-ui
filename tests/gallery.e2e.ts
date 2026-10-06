@@ -304,6 +304,16 @@ for (const scheme of ["light", "dark"] as const) {
     expect(
       await disabled.evaluate((element) => getComputedStyle(element).cursor),
     ).toBe("default");
+    const minimal = page
+      .getByRole("heading", { name: "No additional items" })
+      .locator("..");
+    const bounds = await minimal.boundingBox();
+    expect(bounds!.height).toBeLessThan(160);
+    expect(
+      await minimal.evaluate(
+        (element) => getComputedStyle(element).borderTopStyle,
+      ),
+    ).toBe("solid");
     const save = page.getByRole("button", { name: "Save changes" });
     expect(
       await save.evaluate((element) => getComputedStyle(element).minHeight),

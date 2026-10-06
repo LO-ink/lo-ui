@@ -111,3 +111,7 @@ Custom themes must provide equivalent foreground, fill, hover, and boundary
 contrast; overriding the brand accent alone does not replace those roles.
 
 `List` and `EmptyState` accept `headingLevel` (2–6, default 2) for embedded section titles.
+
+`EmptyState` follows native `sections/SectionEmptyListInformation.tsx`: a solid
+subtle border, 22 px corners, a 26 px title and height determined by its content.
+The icon keeps its own visual appearance rather than gaining an extra tile.
