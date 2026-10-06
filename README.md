@@ -129,3 +129,7 @@ uses LO Pro UI, headings use LO Pro UI Bold, and code uses LO Pro Mono. The font
 assets retain LO's embedded license in `dist/fonts/FONT-LICENSE.txt`; that license
 limits their use to LO products and the LO ecosystem. The MIT license covers the
 library code and does not relicense the fonts.
+
+The supplied Mono BoldItalic file has upright glyph metadata and is excluded
+from the web font declarations. The remaining 47 faces preserve their original
+glyphs, character mappings, metrics and embedded license metadata.
