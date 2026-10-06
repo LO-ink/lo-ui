@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lo-ink/lo-ui.git",
+    "url": "https://github.com/LO-ink/lo-ui.git",
     "directory": "packages/design-tokens"
   },
   "publishConfig": {
