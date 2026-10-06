@@ -2,6 +2,7 @@ import { StrictMode, useState, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import {
   AppIcon,
+  Tabs,
   Dialog,
   Surface,
   TextArea,
@@ -45,6 +46,7 @@ function App() {
   const [alerts, setAlerts] = useState(true);
   const [privateList, setPrivateList] = useState(false);
   const [name, setName] = useState("");
+  const [section, setSection] = useState("all");
 
   return (
     <main className="lo-ui-root gallery" data-lo-theme={theme}>
@@ -230,6 +232,31 @@ function App() {
                 </Button>
               </Stack>
             </Dialog>
+          </Stack>
+        </Surface>
+        <Surface className="gallery-panel" aria-label="Tabs">
+          <Stack gap={3}>
+            <Heading level={2}>Tabs</Heading>
+            <Tabs
+              aria-label="Gallery sections"
+              value={section}
+              onValueChange={setSection}
+              options={[
+                { value: "all", label: "All" },
+                {
+                  value: "permissions",
+                  label: "Permissions and device sensors",
+                },
+                { value: "storage", label: "Storage" },
+                { value: "unavailable", label: "Unavailable", disabled: true },
+              ]}
+            />
+            <Text role="status">Section: {section}</Text>
+            <TextField
+              variant="search"
+              label="Search gallery"
+              placeholder="Search"
+            />
           </Stack>
         </Surface>
       </div>

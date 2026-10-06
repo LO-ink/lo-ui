@@ -382,3 +382,73 @@ test("packaged LO fonts and multiline/modal semantics work in a narrow viewport"
     320,
   );
 });
+
+test("tabs keep whole horizontal labels and compact input geometry at 320px", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto("/");
+  const row = page.getByRole("tablist", { name: "Gallery sections" });
+  const long = page.getByRole("tab", {
+    name: "Permissions and device sensors",
+  });
+  await row.scrollIntoViewIfNeeded();
+  expect(await row.evaluate((e) => e.scrollWidth > e.clientWidth)).toBe(true);
+  expect(
+    await long.evaluate((e) => ({
+      height: e.getBoundingClientRect().height,
+      wrap: getComputedStyle(e).whiteSpace,
+    })),
+  ).toEqual({ height: 44, wrap: "nowrap" });
+  await page.getByRole("tab", { name: "All", exact: true }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(long).toBeFocused();
+  await expect(long).toHaveAttribute("aria-selected", "true");
+  await page.keyboard.press("End");
+  await expect(
+    page.getByRole("tab", { name: "Storage", exact: true }),
+  ).toBeFocused();
+  const field = page.getByRole("textbox", { name: "List name" });
+  expect(
+    await field.evaluate((e) => ({
+      height: e.getBoundingClientRect().height,
+      radius: getComputedStyle(e).borderRadius,
+    })),
+  ).toEqual({ height: 44, radius: "10px" });
+  const search = page.getByRole("textbox", { name: "Search gallery" });
+  await search.fill("test");
+  expect(
+    await search.evaluate((e) => ({
+      height: e.getBoundingClientRect().height,
+      radius: getComputedStyle(e).borderRadius,
+    })),
+  ).toEqual({ height: 38, radius: "6px" });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
+    320,
+  );
+});
+
+test("RTL tabs reveal the selected label and use visual arrow direction", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto("/");
+  const row = page.getByRole("tablist", { name: "Gallery sections" });
+  await row.evaluate((element) => element.setAttribute("dir", "rtl"));
+  await page.getByRole("tab", { name: "All", exact: true }).focus();
+  await page.keyboard.press("ArrowLeft");
+  const long = page.getByRole("tab", {
+    name: "Permissions and device sensors",
+  });
+  await expect(long).toBeFocused();
+  await expect(long).toHaveAttribute("aria-selected", "true");
+  await page.keyboard.press("End");
+  const storage = page.getByRole("tab", { name: "Storage", exact: true });
+  await expect(storage).toBeFocused();
+  const bounds = await storage.boundingBox(),
+    visible = await row.boundingBox();
+  expect(bounds!.x).toBeGreaterThanOrEqual(visible!.x - 1);
+  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(
+    visible!.x + visible!.width + 1,
+  );
+});
