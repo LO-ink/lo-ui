@@ -354,6 +354,17 @@ test("packaged LO fonts and multiline/modal semantics work in a narrow viewport"
   await expect(page.getByRole("textbox", { name: "Notes" })).toHaveValue(
     "First line\nSecond line",
   );
+  const pending = page.getByRole("progressbar", { name: "Pending progress" });
+  expect(
+    await pending.evaluate((e) => (e as HTMLProgressElement).position),
+  ).toBe(-1);
+  expect(
+    await pending.evaluate((e) => getComputedStyle(e).backgroundImage),
+  ).toContain("linear-gradient");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  expect(await pending.evaluate((e) => getComputedStyle(e).animationName)).toBe(
+    "none",
+  );
   const trigger = page.getByRole("button", { name: "Open dialog" });
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Example dialog" });

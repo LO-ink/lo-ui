@@ -655,3 +655,34 @@
 :where(.lo-ui-root code, .lo-ui-root pre) {
   font-family: var(--lo-font-family-mono);
 }
+
+.lo-ui-app-icon:has(> img) {
+  background: transparent;
+}
+.lo-ui-progress:indeterminate {
+  background-image: linear-gradient(
+    90deg,
+    var(--lo-color-border) 0% 30%,
+    var(--lo-color-accent) 30% 50%,
+    var(--lo-color-border) 50% 100%
+  );
+  background-size: 200% 100%;
+  animation: lo-ui-progress-pending 1.4s linear infinite;
+}
+.lo-ui-progress:indeterminate::-webkit-progress-bar {
+  background: transparent;
+}
+@keyframes lo-ui-progress-pending {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lo-ui-progress:indeterminate {
+    animation: none;
+    background-position: 50% 0;
+  }
+}
