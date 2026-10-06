@@ -1,10 +1,10 @@
 {
   "name": "@lo/ui-react18-compat",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "dependencies": {
-    "@lo-ink/ui": "0.1.0",
+    "@lo-ink/ui": "0.1.1",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },

@@ -88,3 +88,8 @@ statements, 90% functions, or 80% branches. Reports are uploaded as CI artifacts
 
 `make browser` checks the gallery at 320px, keyboard controls, dark theme and
 reduced motion after installing Chromium with `npx playwright install chromium`.
+
+Repository policy checks require Python 3 for Python comment tokenization. YAML
+comments are parsed as YAML; embedded scripts and localized scalar values retain
+their own language. LO credentials are checked by the root Gitleaks configuration
+and a synthetic scanner regression before each repository scan.
