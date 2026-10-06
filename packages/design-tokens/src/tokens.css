@@ -1,3 +1,5 @@
+@import "./fonts.css";
+
 :where(.lo-ui-root) {
   color-scheme: light;
   --lo-color-canvas: #f7fbff;
@@ -14,6 +16,7 @@
   --lo-color-accent-hover: #4655df;
   --lo-color-accent-contrast: #ffffff;
   --lo-color-accent-soft: #e0e6ff;
+  --lo-color-success: #257b52;
   --lo-color-danger: #c93642;
   --lo-color-danger-hover: #ab2d37;
   --lo-color-danger-soft: #fff0f1;
@@ -41,13 +44,15 @@
   --lo-radius-lg: 20px;
   --lo-radius-full: 999px;
 
-  --lo-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --lo-font-family: "LO Pro UI", sans-serif;
+  --lo-font-family-display: "LO Pro Display", sans-serif;
+  --lo-font-family-mono: "LO Pro Mono", monospace;
   --lo-font-size-caption: 12px;
   --lo-font-size-label: 14px;
   --lo-font-size-body: 16px;
   --lo-font-size-title: 20px;
   --lo-font-weight-regular: 400;
-  --lo-font-weight-medium: 600;
+  --lo-font-weight-medium: 500;
   --lo-font-weight-bold: 700;
   --lo-line-height-tight: 1.25;
   --lo-line-height-body: 1.5;
@@ -73,6 +78,7 @@
   --lo-color-accent-hover: #4655df;
   --lo-color-accent-contrast: #f7fbff;
   --lo-color-accent-soft: #1a2040;
+  --lo-color-success: #6bc799;
   --lo-color-danger: #ff8c96;
   --lo-color-danger-hover: #b52f40;
   --lo-color-danger-soft: #44242a;
@@ -101,6 +107,7 @@
     --lo-color-accent-hover: #4655df;
     --lo-color-accent-contrast: #f7fbff;
     --lo-color-accent-soft: #1a2040;
+    --lo-color-success: #6bc799;
     --lo-color-danger: #ff8c96;
     --lo-color-danger-hover: #b52f40;
     --lo-color-danger-soft: #44242a;

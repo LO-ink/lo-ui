@@ -1,0 +1,430 @@
+{
+  "sourceRepository": "https://git.lo.ink/LO/app",
+  "sourceCommit": "4fc2adc27f79f8b5425e1d6ebd2d907b53eefdc3",
+  "sourceDirectory": "packages/lo-app/src/assets/fonts",
+  "fonts": [
+    {
+      "file": "LOProDisplay-Black.woff2",
+      "sourceFile": "LOProDisplay-Black.ttf",
+      "family": "LO Pro Display",
+      "weight": 900,
+      "style": "normal",
+      "sourceSha256": "d926ae9cd61336307a3fc41a838be86bece6089e14ca7da89c97e85c4928f500",
+      "woff2Sha256": "949e39e44ef0414160afb6385613e86cf87a4fbdfc1bf0204bd6b85459876b61"
+    },
+    {
+      "file": "LOProDisplay-BlackItalic.woff2",
+      "sourceFile": "LOProDisplay-BlackItalic.ttf",
+      "family": "LO Pro Display",
+      "weight": 900,
+      "style": "italic",
+      "sourceSha256": "4000e1bef6302196a7fc124f59b9f3900ee971ade137bcaa101eef3d7efd4bea",
+      "woff2Sha256": "534396fde524dfc1a0bc25b6ec352c6ccafda28e180f46ee529620916c2cb504"
+    },
+    {
+      "file": "LOProDisplay-Bold.woff2",
+      "sourceFile": "LOProDisplay-Bold.ttf",
+      "family": "LO Pro Display",
+      "weight": 700,
+      "style": "normal",
+      "sourceSha256": "87541a75f861d411a01ad41377929c8cb0b088a11609ed5242244074bfd04797",
+      "woff2Sha256": "af6cbcde8f46096b8d225d7c50d4e8f2c6dfa6da1442819ff6cfe958032ea414"
+    },
+    {
+      "file": "LOProDisplay-BoldItalic.woff2",
+      "sourceFile": "LOProDisplay-BoldItalic.ttf",
+      "family": "LO Pro Display",
+      "weight": 700,
+      "style": "italic",
+      "sourceSha256": "cf7052d2788ab105e2b725542032d290cf11df970ec5808a8f5d9ca4bb926156",
+      "woff2Sha256": "e589094c4764d9ebad6b68389e7f70e61c610c07c9fc7aeab311d421d45b4d3f"
+    },
+    {
+      "file": "LOProDisplay-ExtraBold.woff2",
+      "sourceFile": "LOProDisplay-ExtraBold.ttf",
+      "family": "LO Pro Display",
+      "weight": 800,
+      "style": "normal",
+      "sourceSha256": "2692a897e7696b7c993f8e5be3ca526a81e99900d79d5a4127452147038ecdc2",
+      "woff2Sha256": "e05798f2371c0a7175d63005cb6b8f45f7b19ce5a15ec45a534620fe33da5f00"
+    },
+    {
+      "file": "LOProDisplay-ExtraBoldItalic.woff2",
+      "sourceFile": "LOProDisplay-ExtraBoldItalic.ttf",
+      "family": "LO Pro Display",
+      "weight": 800,
+      "style": "italic",
+      "sourceSha256": "3860e36281afb6c9efbd23dc167c236919fb5c6e1b4d17afcfc4b01cc4471227",
+      "woff2Sha256": "7adaef20eba1c5e7457d7dd3e087cee8ef39ab4a265e2be04de2e4e7aab764d2"
+    },
+    {
+      "file": "LOProDisplay-ExtraLight.woff2",
+      "sourceFile": "LOProDisplay-ExtraLight.ttf",
+      "family": "LO Pro Display",
+      "weight": 200,
+      "style": "normal",
+      "sourceSha256": "1fe4f4e5f6f43a2385dacf08c380ae2b99068edb5e4afe5dd42c778cc5735a53",
+      "woff2Sha256": "a83a26f5ac90fc599e5000ee6612afcd226cb931ff6b3963cc3e59acf390fd27"
+    },
+    {
+      "file": "LOProDisplay-ExtraLightItalic.woff2",
+      "sourceFile": "LOProDisplay-ExtraLightItalic.ttf",
+      "family": "LO Pro Display",
+      "weight": 200,
+      "style": "italic",
+      "sourceSha256": "5f0168dbaa6d3fdcf1afd2a013952c4290edc034294c95ea92eab3f26ea3bfcf",
+      "woff2Sha256": "9c8b4cc863bb28e1da7068a9354e8357347c0059db056ba03e5c1af24fc24a3a"
+    },
+    {
+      "file": "LOProDisplay-Italic.woff2",
+      "sourceFile": "LOProDisplay-Italic.ttf",
+      "family": "LO Pro Display",
+      "weight": 400,
+      "style": "italic",
+      "sourceSha256": "01394db1c711680e0df41838a8cdd0ee9b08536b4af836a6ac20a6f2aacce2b4",
+      "woff2Sha256": "35b7701a14ec6e545cf59ee281800aa076d0da43706e7f75137135e7e33ff750"
+    },
+    {
+      "file": "LOProDisplay-Light.woff2",
+      "sourceFile": "LOProDisplay-Light.ttf",
+      "family": "LO Pro Display",
+      "weight": 300,
+      "style": "normal",
+      "sourceSha256": "422cfa40e3e70ecfc79c912d626e9ae0b905ebc4d3a386ad18aba0ee24dec906",
+      "woff2Sha256": "4879e1326cdbff089ff8a549e50da65d3cccab75aa3fb2828b6bdec507f648fc"
+    },
+    {
+      "file": "LOProDisplay-LightItalic.woff2",
+      "sourceFile": "LOProDisplay-LightItalic.ttf",
+      "family": "LO Pro Display",
+      "weight": 300,
+      "style": "italic",
+      "sourceSha256": "117af7f9b85094817fdadbdc4538c47e47382a5b428a0dfefc4b9a71e250f403",
+      "woff2Sha256": "e64d67325d1e160b934df346261bc5cd680536ca765c74d00075e6cb80523913"
+    },
+    {
+      "file": "LOProDisplay-Medium.woff2",
+      "sourceFile": "LOProDisplay-Medium.ttf",
+      "family": "LO Pro Display",
+      "weight": 500,
+      "style": "normal",
+      "sourceSha256": "e3dfaf127f736635072c41deef29e3bf1d858f0d27657c1c973ab615652ded42",
+      "woff2Sha256": "3577bea22ef157f2702eb2511cc5539b694cfd49852bb80a45cafa09a7f9b3aa"
+    },
+    {
+      "file": "LOProDisplay-MediumItalic.woff2",
+      "sourceFile": "LOProDisplay-MediumItalic.ttf",
+      "family": "LO Pro Display",
+      "weight": 500,
+      "style": "italic",
+      "sourceSha256": "216c22225e3ce216855d7d0743d07d6f829c96b9b09bfa916f0135b86ed8493b",
+      "woff2Sha256": "d8b055bcc4b0e5bf9cbabec2b3dee2ceef72a0411ed8391393a5e222a764bfd7"
+    },
+    {
+      "file": "LOProDisplay-Regular.woff2",
+      "sourceFile": "LOProDisplay-Regular.ttf",
+      "family": "LO Pro Display",
+      "weight": 400,
+      "style": "normal",
+      "sourceSha256": "1fdaa3185057c087a17d4db36f6b89f68bcc56a51daba745f3c102401b1cef7a",
+      "woff2Sha256": "1a28b96d4f8065f96a9bed83861d44f1ad77353aaeadb2b43e5634d1acc2c525"
+    },
+    {
+      "file": "LOProDisplay-SemiBold.woff2",
+      "sourceFile": "LOProDisplay-SemiBold.ttf",
+      "family": "LO Pro Display",
+      "weight": 600,
+      "style": "normal",
+      "sourceSha256": "fe7bc3883ee7fc632ffc1dfb74349c28b34e71ac8abdad41296d125cca106453",
+      "woff2Sha256": "01f73d140612e3427c981abeb92e6da3217ab354c1b80bee82e8ac645236e16a"
+    },
+    {
+      "file": "LOProDisplay-SemiBoldItalic.woff2",
+      "sourceFile": "LOProDisplay-SemiBoldItalic.ttf",
+      "family": "LO Pro Display",
+      "weight": 600,
+      "style": "italic",
+      "sourceSha256": "1130900165dcd095f1a3cc746966517b6d7aa457cfed055f5967dd316efaafb1",
+      "woff2Sha256": "76299179fb81468ca7e9573e6a3eb5cd27725068727dba71e4db289757b0e7bb"
+    },
+    {
+      "file": "LOProDisplay-Thin.woff2",
+      "sourceFile": "LOProDisplay-Thin.ttf",
+      "family": "LO Pro Display",
+      "weight": 100,
+      "style": "normal",
+      "sourceSha256": "2becbca8d60e125a9931988d4b77b04c12511c7bc340729a45f4cf9df9b19f1e",
+      "woff2Sha256": "c1a1383352c938e8f50ff060f456eb2cc72653eb11023cfc0ed4b13e986cbcec"
+    },
+    {
+      "file": "LOProDisplay-ThinItalic.woff2",
+      "sourceFile": "LOProDisplay-ThinItalic.ttf",
+      "family": "LO Pro Display",
+      "weight": 100,
+      "style": "italic",
+      "sourceSha256": "4fdb6c622f457a29cc980d3877f3ef4d490c87ebee30c6045aeae3a000e4a938",
+      "woff2Sha256": "4bfc797562010a1a2376aed470832348809731029a336b4fec0df8d0885c4565"
+    },
+    {
+      "file": "LOProMono-Black.woff2",
+      "sourceFile": "LOProMono-Black.ttf",
+      "family": "LO Pro Mono",
+      "weight": 900,
+      "style": "normal",
+      "sourceSha256": "eefbc6987fe44e4cc0e267814d44a0f9f439081cf4b049e8983252eabc3056f9",
+      "woff2Sha256": "c16fbd6a95b4953b2c7f4ede6055bfc799fdaea07c4912cda4ded70d1e553d69"
+    },
+    {
+      "file": "LOProMono-BlackItalic.woff2",
+      "sourceFile": "LOProMono-BlackItalic.ttf",
+      "family": "LO Pro Mono",
+      "weight": 900,
+      "style": "italic",
+      "sourceSha256": "e24ed0decbda0430927038a1fbd57af102402236687f8e1a4430d45505d51650",
+      "woff2Sha256": "0059ae3f37913730ad4ebac5e7574635533c5785ff76ed91e76e7d1e21e8f54c"
+    },
+    {
+      "file": "LOProMono-Bold.woff2",
+      "sourceFile": "LOProMono-Bold.ttf",
+      "family": "LO Pro Mono",
+      "weight": 700,
+      "style": "normal",
+      "sourceSha256": "b0b8128e9d4b161959e283d63b0c0e5a26a4522dc9084b203e523247ea347c7c",
+      "woff2Sha256": "6c7da34452d9bf84f5179a269b77a428a3bc0c11c0203239221a01a40d28c8e9"
+    },
+    {
+      "file": "LOProMono-Light.woff2",
+      "sourceFile": "LOProMono-Light.ttf",
+      "family": "LO Pro Mono",
+      "weight": 300,
+      "style": "normal",
+      "sourceSha256": "f3bead245f4ba35b32fc78c64383dcc206e6a9236f535b4fc7ccadcdc345b9a4",
+      "woff2Sha256": "012fa8af7d28dd38b8030f0a124634a1402f3b63715e8aaf5e2fadba0224148d"
+    },
+    {
+      "file": "LOProMono-LightItalic.woff2",
+      "sourceFile": "LOProMono-LightItalic.ttf",
+      "family": "LO Pro Mono",
+      "weight": 300,
+      "style": "italic",
+      "sourceSha256": "b33e96427fc825cb3eea2391395750ad4c2ca0c58a8945388c9bab2d2259db92",
+      "woff2Sha256": "4e89c744f8884106c8dd2abb8875bf298eaa6e9e77b8e3f8eb95503635f24c27"
+    },
+    {
+      "file": "LOProMono-Medium.woff2",
+      "sourceFile": "LOProMono-Medium.ttf",
+      "family": "LO Pro Mono",
+      "weight": 500,
+      "style": "normal",
+      "sourceSha256": "892f944fe36c9e2888bced265f43ac4d491d79530fc25ff30f415b7c103b8132",
+      "woff2Sha256": "88d7cc129eb3a726d0316c1ae7f582bbb1a18a43d37340f2335498977290e086"
+    },
+    {
+      "file": "LOProMono-MediumItalic.woff2",
+      "sourceFile": "LOProMono-MediumItalic.ttf",
+      "family": "LO Pro Mono",
+      "weight": 500,
+      "style": "italic",
+      "sourceSha256": "532457f8618ce9e499f39a5fc3786232f00b9bba613dfb42fc11818fede05dfd",
+      "woff2Sha256": "cd28f6417a3cee60d6a3ad4acef666e39da6ca2720365edce45674ba85ac0bd5"
+    },
+    {
+      "file": "LOProMono-Regular.woff2",
+      "sourceFile": "LOProMono-Regular.ttf",
+      "family": "LO Pro Mono",
+      "weight": 400,
+      "style": "normal",
+      "sourceSha256": "d777a64571d4457361c43251a8a6151cfb7b6b28051c896a26f401cd161afccb",
+      "woff2Sha256": "5fa6188fdbbb69f62455a3c132bd331f3b8d467824a3069cc0a81ba1da5c34df"
+    },
+    {
+      "file": "LOProMono-RegularItalic.woff2",
+      "sourceFile": "LOProMono-RegularItalic.ttf",
+      "family": "LO Pro Mono",
+      "weight": 400,
+      "style": "italic",
+      "sourceSha256": "950fc3f520e64adffb26ee9f83a44f79748a6a70e334b710bdd2f1179329f79c",
+      "woff2Sha256": "a8ad947193582afb29b150b60e14a5b485bd1dca47dd009c9901fc7fe3858d60"
+    },
+    {
+      "file": "LOProMono-Semibold.woff2",
+      "sourceFile": "LOProMono-Semibold.ttf",
+      "family": "LO Pro Mono",
+      "weight": 600,
+      "style": "normal",
+      "sourceSha256": "a720f067c0a84611d5f5cc084e914f0234251148b58dbdd16c4746150593459d",
+      "woff2Sha256": "cba84bd7cbd0d072b8417f55680ed79d248391baada0c3ed72ac50348beb0125"
+    },
+    {
+      "file": "LOProMono-SemiboldItalic.woff2",
+      "sourceFile": "LOProMono-SemiboldItalic.ttf",
+      "family": "LO Pro Mono",
+      "weight": 600,
+      "style": "italic",
+      "sourceSha256": "c53c8eee214d6427b3e2ff9f0ff927b58b58778a3948a464e92db88f008ad660",
+      "woff2Sha256": "449533cde02680bb3b7ff2689921ef08dc2774c23af39684a2e5b082a8eb6d60"
+    },
+    {
+      "file": "LOProUI-Black.woff2",
+      "sourceFile": "LOProUI-Black.ttf",
+      "family": "LO Pro UI",
+      "weight": 900,
+      "style": "normal",
+      "sourceSha256": "0b872bc7366b3cf899f1fe5324acba55143522e364512ebe3e81c337392bec1f",
+      "woff2Sha256": "e48426c638f271281ffb27cf7b9037336940463bc7c0d90931c4281426d7794b"
+    },
+    {
+      "file": "LOProUI-BlackItalic.woff2",
+      "sourceFile": "LOProUI-BlackItalic.ttf",
+      "family": "LO Pro UI",
+      "weight": 900,
+      "style": "italic",
+      "sourceSha256": "2f93b71887bbadd07806721b64b328fbf82cf7131e7d6810567016c567b9414b",
+      "woff2Sha256": "69f4d5fed5226c7faae6fd5ee983fc22fd39374f958b7b3dfc1ef229444d6c12"
+    },
+    {
+      "file": "LOProUI-Bold.woff2",
+      "sourceFile": "LOProUI-Bold.ttf",
+      "family": "LO Pro UI",
+      "weight": 700,
+      "style": "normal",
+      "sourceSha256": "b9a3e5b7ecc4b02019c5006a8e00e4714911f9adc08d3533a971df6e7aac6c19",
+      "woff2Sha256": "54f2dded82eb703702c8332fd8737e33a3ab3fde5f8eded848c940e61264408f"
+    },
+    {
+      "file": "LOProUI-BoldItalic.woff2",
+      "sourceFile": "LOProUI-BoldItalic.ttf",
+      "family": "LO Pro UI",
+      "weight": 700,
+      "style": "italic",
+      "sourceSha256": "ce056623527adbc2b8694eb0164c1ca55e468668dd39b52db8259ee29d025e5f",
+      "woff2Sha256": "0d14846958a02446b40891aafc5f3f318aa964b2cd9757354ad7edb5c9b67150"
+    },
+    {
+      "file": "LOProUI-ExtraBold.woff2",
+      "sourceFile": "LOProUI-ExtraBold.ttf",
+      "family": "LO Pro UI",
+      "weight": 800,
+      "style": "normal",
+      "sourceSha256": "536ea8707df136bd2497d385bdd6074f2458c49e1db93bdbdacf8991986226aa",
+      "woff2Sha256": "03ab04ebaddffa6e57fa2290ca2ca88bd7f71e72d0dc7a49d485176846f41d46"
+    },
+    {
+      "file": "LOProUI-ExtraBoldItalic.woff2",
+      "sourceFile": "LOProUI-ExtraBoldItalic.ttf",
+      "family": "LO Pro UI",
+      "weight": 800,
+      "style": "italic",
+      "sourceSha256": "a63a4d9bd0e300af1851f52502edae7c80ce3dbe835551e52fedf672b1d99f9b",
+      "woff2Sha256": "e55447d84b2d7813824a32a7ca4aad4bd8caacd293cd15192a0581877debda49"
+    },
+    {
+      "file": "LOProUI-ExtraLight.woff2",
+      "sourceFile": "LOProUI-ExtraLight.ttf",
+      "family": "LO Pro UI",
+      "weight": 200,
+      "style": "normal",
+      "sourceSha256": "4537d453f7879e1cd34a7b2f6eba6dc6351115ea6b05caf445fdb4c47826769b",
+      "woff2Sha256": "535e6579cbb278bd15a384beaa03355cdbce6b84f003a413fb607d550757e345"
+    },
+    {
+      "file": "LOProUI-ExtraLightItalic.woff2",
+      "sourceFile": "LOProUI-ExtraLightItalic.ttf",
+      "family": "LO Pro UI",
+      "weight": 200,
+      "style": "italic",
+      "sourceSha256": "b31dd4074a4ec303980946be580b4657c794953115fc0ee42aff17b93cac17dd",
+      "woff2Sha256": "efd2b3a47267f39f7cebe9317491ac03a1004d3efeec6ba5d7785f14e804792f"
+    },
+    {
+      "file": "LOProUI-Italic.woff2",
+      "sourceFile": "LOProUI-Italic.ttf",
+      "family": "LO Pro UI",
+      "weight": 400,
+      "style": "italic",
+      "sourceSha256": "c15bf958dd353fcefe4e70c30e317bec1222d4c8eee21064d4a12557425fc91a",
+      "woff2Sha256": "2d941a7aec93fbb6d5ebe03124b541831655a11954bde3cccb14efc6371b7515"
+    },
+    {
+      "file": "LOProUI-Light.woff2",
+      "sourceFile": "LOProUI-Light.ttf",
+      "family": "LO Pro UI",
+      "weight": 300,
+      "style": "normal",
+      "sourceSha256": "2746cc6b83404b13d64c73dae5ad71edac9dbcc7dd2ffea6c21950bdb2d51fcb",
+      "woff2Sha256": "17647daebe81488e5417e88c78b9936a9ab56a2523f8ef9618c77e23330e2ef0"
+    },
+    {
+      "file": "LOProUI-LightItalic.woff2",
+      "sourceFile": "LOProUI-LightItalic.ttf",
+      "family": "LO Pro UI",
+      "weight": 300,
+      "style": "italic",
+      "sourceSha256": "d818dba0f32f2fd961590c03eb0118a97ccd1ef462c3f97e7e8abaf2cbcac5a3",
+      "woff2Sha256": "61c9e2489fc64e4b00da29b21428d5698aaa500052e676a2809828ffe712e720"
+    },
+    {
+      "file": "LOProUI-Medium.woff2",
+      "sourceFile": "LOProUI-Medium.ttf",
+      "family": "LO Pro UI",
+      "weight": 500,
+      "style": "normal",
+      "sourceSha256": "9277baa78b4487adc38401178ddd15dc7e1be3944e99a23b796769c6923b579f",
+      "woff2Sha256": "c3f028b5ad10ccd9606935881482561cd20a3bfc834ba16dbaa9786ff61a05f6"
+    },
+    {
+      "file": "LOProUI-MediumItalic.woff2",
+      "sourceFile": "LOProUI-MediumItalic.ttf",
+      "family": "LO Pro UI",
+      "weight": 500,
+      "style": "italic",
+      "sourceSha256": "c0dacc13bda0537d0198a0ca0348c32f1ccaa28ce4424f3990e89a9d326c0f05",
+      "woff2Sha256": "de7e2497073003efd1d831461273d9f87bc3ee124ca23550bff51aeed74a6fb4"
+    },
+    {
+      "file": "LOProUI-Regular.woff2",
+      "sourceFile": "LOProUI-Regular.ttf",
+      "family": "LO Pro UI",
+      "weight": 400,
+      "style": "normal",
+      "sourceSha256": "78e1b5e4f7ac994d2f2590c7ba82b6e6c2141c1902451a0230e577268ff1ac2d",
+      "woff2Sha256": "97ac3720f05a2b76afb9d906d910cf7b7c52ff468101577726b35ea55876efe4"
+    },
+    {
+      "file": "LOProUI-SemiBold.woff2",
+      "sourceFile": "LOProUI-SemiBold.ttf",
+      "family": "LO Pro UI",
+      "weight": 600,
+      "style": "normal",
+      "sourceSha256": "65382ef743748c4aefc80206d948bafd87300f1a609e947ab26801cfa183ddcf",
+      "woff2Sha256": "217c140b452c5f7248e491a33067a3917ce12d8c6681ec9897696e8a79b1ade1"
+    },
+    {
+      "file": "LOProUI-SemiBoldItalic.woff2",
+      "sourceFile": "LOProUI-SemiBoldItalic.ttf",
+      "family": "LO Pro UI",
+      "weight": 600,
+      "style": "italic",
+      "sourceSha256": "e92e21122dd18902f509d4919f73fd585c311f5b1ea1cce904440787b58be2be",
+      "woff2Sha256": "cb48b7dcf819620c3f6d2eb2d1dfb172ff6c20a81a223b25d262ebd6b8dd3f7b"
+    },
+    {
+      "file": "LOProUI-Thin.woff2",
+      "sourceFile": "LOProUI-Thin.ttf",
+      "family": "LO Pro UI",
+      "weight": 100,
+      "style": "normal",
+      "sourceSha256": "921e2499ff2f0bbb06be83ceb39a9de74d946c0e1790abc988989b5e3bd734dd",
+      "woff2Sha256": "06d367752877fe73c2944da4285b467847aa51e79358bfa79bf6404465998792"
+    },
+    {
+      "file": "LOProUI-ThinItalic.woff2",
+      "sourceFile": "LOProUI-ThinItalic.ttf",
+      "family": "LO Pro UI",
+      "weight": 100,
+      "style": "italic",
+      "sourceSha256": "a2aa9ad689a97d8ac641eba93a7bbcbc284bf6fccb65845da8a3324160916f07",
+      "woff2Sha256": "180e5a5d22294359d08188aa1f64e4d11b229e6eae30e22c466d6c9e2e556fa1"
+    }
+  ]
+}

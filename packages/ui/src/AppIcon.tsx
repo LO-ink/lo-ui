@@ -21,6 +21,7 @@ export function AppIcon({
   return (
     <span
       {...props}
+      role={props.role ?? (!src && props["aria-label"] ? "img" : undefined)}
       className={classes(
         "lo-ui-app-icon",
         `lo-ui-app-icon--${size}`,

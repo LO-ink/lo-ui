@@ -59,7 +59,7 @@ it("app icons preserve image descriptions and support a text avatar", () => {
       G
     </AppIcon>,
   );
-  expect(screen.queryByRole("img")).toBeNull();
+  expect(screen.getByRole("img", { name: "Garden" })).toHaveTextContent("G");
   expect(screen.getByLabelText("Garden")).toHaveTextContent("G");
 });
 
@@ -159,4 +159,66 @@ it("embedded list and empty-state titles preserve the containing section hierarc
     screen.getByRole("heading", { name: "No choices", level: 4 }),
   ).toBeVisible();
   expect(screen.getByRole("list", { name: "Choices" })).toBeVisible();
+});
+
+it("multiline fields connect validation, preserve explicit descriptions and forward focus", async () => {
+  const { TextArea } = await import("@lo-ink/ui");
+  const ref = { current: null as HTMLTextAreaElement | null };
+  const { rerender } = render(
+    <TextArea
+      ref={ref}
+      label="Parameters"
+      description="JSON"
+      error="Invalid JSON"
+      aria-describedby="external"
+    />,
+  );
+  const field = screen.getByRole("textbox", { name: "Parameters" });
+  expect(ref.current).toBe(field);
+  expect(field).toHaveAttribute("aria-invalid", "true");
+  expect(field.getAttribute("aria-describedby")!.split(" ")).toHaveLength(3);
+  rerender(<TextArea label="Parameters" id="parameters" readOnly value="{}" />);
+  expect(field).toHaveAttribute("id", "parameters");
+  expect(field).not.toHaveAttribute("aria-describedby");
+  expect(field).toHaveAttribute("readonly");
+});
+
+it("surface, dialog and progress preserve native semantics and caller control", async () => {
+  const { Surface, Dialog, Progress } = await import("@lo-ink/ui");
+  const ref = { current: null as HTMLDialogElement | null };
+  const cancel = vi.fn();
+  render(
+    <Surface padding={0} aria-label="Examples">
+      <Dialog ref={ref} open aria-label="Confirm" onCancel={cancel}>
+        <Heading>Confirm</Heading>
+        <Progress value={25} max={100} aria-label="Run" />
+      </Dialog>
+    </Surface>,
+  );
+  expect(screen.getByRole("region", { name: "Examples" })).toHaveClass(
+    "lo-ui-surface",
+  );
+  const dialog = screen.getByRole("dialog", { name: "Confirm" });
+  expect(ref.current).toBe(dialog);
+  fireEvent(dialog, new Event("cancel"));
+  expect(cancel).toHaveBeenCalledOnce();
+  expect(screen.getByRole("progressbar", { name: "Run" })).toHaveAttribute(
+    "value",
+    "25",
+  );
+});
+
+it("inline typography retains semantic emphasis and shared font/tone roles", () => {
+  render(
+    <Text as="strong" tone="success" size="title" weight="medium" family="mono">
+      Complete
+    </Text>,
+  );
+  const text = screen.getByText("Complete");
+  expect(text.tagName).toBe("STRONG");
+  expect(text).toHaveClass(
+    "lo-ui-text--success",
+    "lo-ui-text--family-mono",
+    "lo-ui-text--weight-medium",
+  );
 });

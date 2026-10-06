@@ -1,7 +1,11 @@
-import { StrictMode, useState } from "react";
+import { StrictMode, useState, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import {
   AppIcon,
+  Dialog,
+  Surface,
+  TextArea,
+  Progress,
   Button,
   Cell,
   Checkbox,
@@ -36,6 +40,7 @@ function GiftIcon() {
 }
 
 function App() {
+  const dialog = useRef<HTMLDialogElement>(null);
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [alerts, setAlerts] = useState(true);
   const [privateList, setPrivateList] = useState(false);
@@ -64,7 +69,7 @@ function App() {
       </header>
 
       <div className="gallery-grid">
-        <section className="gallery-panel" aria-labelledby="controls-title">
+        <Surface className="gallery-panel" aria-labelledby="controls-title">
           <Stack gap={6}>
             <div>
               <h2 id="controls-title" className="gallery-title">
@@ -106,9 +111,9 @@ function App() {
               }
             />
           </Stack>
-        </section>
+        </Surface>
 
-        <section className="gallery-panel" aria-labelledby="settings-title">
+        <Surface className="gallery-panel" aria-labelledby="settings-title">
           <Stack gap={4}>
             <div>
               <h2 id="settings-title" className="gallery-title">
@@ -151,9 +156,9 @@ function App() {
               />
             </List>
           </Stack>
-        </section>
+        </Surface>
 
-        <section className="gallery-panel" aria-labelledby="list-title">
+        <Surface className="gallery-panel" aria-labelledby="list-title">
           <Stack gap={4}>
             <div>
               <h2 id="list-title" className="gallery-title">
@@ -187,9 +192,9 @@ function App() {
               />
             </List>
           </Stack>
-        </section>
+        </Surface>
 
-        <section className="gallery-panel" aria-labelledby="empty-title">
+        <Surface className="gallery-panel" aria-labelledby="empty-title">
           <h2 id="empty-title" className="gallery-title gallery-title--hidden">
             Empty state
           </h2>
@@ -199,7 +204,34 @@ function App() {
             description="Add your first idea so it is easy to find later."
             action={<Button size="small">Add an idea</Button>}
           />
-        </section>
+          <EmptyState title="No additional items" />
+        </Surface>
+        <Surface
+          className="gallery-panel"
+          aria-label="Multiline fields and dialogs"
+        >
+          <Stack gap={4}>
+            <Heading level={2}>Multiline fields and dialogs</Heading>
+            <TextArea label="Notes" description="Plain text" rows={3} />
+            <TextField label="Attachment" type="file" />
+            <Progress value={40} max={100} aria-label="Example progress" />
+            <Progress aria-label="Pending progress" />
+            <Button onClick={() => dialog.current?.showModal()}>
+              Open dialog
+            </Button>
+            <Dialog ref={dialog} aria-labelledby="dialog-title">
+              <Stack gap={4}>
+                <Heading level={2} id="dialog-title">
+                  Example dialog
+                </Heading>
+                <Text>Close with Escape or the button.</Text>
+                <Button autoFocus onClick={() => dialog.current?.close()}>
+                  Close dialog
+                </Button>
+              </Stack>
+            </Dialog>
+          </Stack>
+        </Surface>
       </div>
     </main>
   );

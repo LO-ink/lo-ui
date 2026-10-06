@@ -98,7 +98,7 @@ and a synthetic scanner regression before each repository scan.
 
 ## Native LO baseline
 
-Base canvas, surface, text and brand accent follow LO `reactnative-ui/src/theme/v2/colors.ts`. Buttons follow `ButtonWrapper`: 50px default height, pill corners and tinted secondary controls. Caption contrast and keyboard focus are web accessibility adaptations; the kit does not reproduce native glass effects or ship the proprietary LO font. `--lo-color-accent-text` separates readable text accents from the filled brand color, especially in dark mode. Theme overrides should set it alongside `--lo-color-accent` when the host supplies a different brand.
+Base canvas, surface, text and brand accent follow LO `reactnative-ui/src/theme/v2/colors.ts`. Buttons follow `ButtonWrapper`: 50px default height, pill corners and tinted secondary controls. Caption contrast and keyboard focus are web accessibility adaptations; the kit does not reproduce native glass effects . `--lo-color-accent-text` separates readable text accents from the filled brand color, especially in dark mode. Theme overrides should set it alongside `--lo-color-accent` when the host supplies a different brand.
 
 `Heading` accepts `level={2}` (levels 1–6) so galleries and nested sections preserve heading order. All components retain semantic HTML, accessible names and keyboard interactions.
 
@@ -111,3 +111,30 @@ Custom themes must provide equivalent foreground, fill, hover, and boundary
 contrast; overriding the brand accent alone does not replace those roles.
 
 `List` and `EmptyState` accept `headingLevel` (2–6, default 2) for embedded section titles.
+
+`EmptyState` follows native `sections/SectionEmptyListInformation.tsx`: a solid
+subtle border, 22 px corners, a 26 px title and height determined by its content.
+The icon keeps its own visual appearance rather than gaining an extra tile.
+
+`Surface` separates groups using shared surface, border and spacing tokens.
+`Dialog` wraps the native dialog element and forwards its ref; callers control
+`showModal()`, `close()` and cancellation. `TextArea` connects its visible label,
+help and validation to a multiline field. `Progress` retains native determinate
+and indeterminate semantics. `TextField` also supports file selection.
+
+The design tokens ship LO Pro UI, LO Pro Display and LO Pro Mono as WOFF2,
+with the supplied weights and verified italic faces. Importing the UI stylesheet loads the
+font declarations; browsers download only the faces used by the page. UI text
+uses LO Pro UI, headings use LO Pro UI Bold, and code uses LO Pro Mono. The font
+assets retain LO's embedded license in `dist/fonts/FONT-LICENSE.txt`; that license
+limits their use to LO products and the LO ecosystem. The MIT license covers the
+library code and does not relicense the fonts.
+
+The supplied Mono BoldItalic file has upright glyph metadata and is excluded
+from the web font declarations. The remaining 47 faces preserve their original
+glyphs, character mappings, metrics and embedded license metadata.
+
+`Text` supports inline, emphasis and code/pre semantics through `as`, shared
+regular/medium/bold weights, success/error tones, title/display sizes and the
+three LO font families. Consumers can format report data without defining a
+second typography system.
