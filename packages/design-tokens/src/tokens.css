@@ -1,22 +1,25 @@
 :where(.lo-ui-root) {
   color-scheme: light;
-  --lo-color-canvas: #f5f7fa;
+  --lo-color-canvas: #f7fbff;
   --lo-color-surface: #ffffff;
   --lo-color-surface-raised: #ffffff;
-  --lo-color-text: #171a21;
+  --lo-color-text: #121624;
   --lo-color-text-secondary: #626875;
   --lo-color-border: #dfe3ea;
+  --lo-color-control-border: #818895;
   --lo-color-border-subtle: #edf0f4;
-  --lo-color-accent: #5064e8;
-  --lo-color-accent-hover: #4053d0;
+  --lo-color-accent: #5969fc;
+  --lo-color-accent-fill: #5060e8;
+  --lo-color-accent-text: #3f50d4;
+  --lo-color-accent-hover: #4655df;
   --lo-color-accent-contrast: #ffffff;
-  --lo-color-accent-soft: #eef0ff;
+  --lo-color-accent-soft: #e0e6ff;
   --lo-color-danger: #c93642;
   --lo-color-danger-hover: #ab2d37;
   --lo-color-danger-soft: #fff0f1;
-  --lo-color-focus: #7182f2;
+  --lo-color-focus: #5969fc;
   --lo-color-disabled: #9ca2ae;
-  --lo-shadow-raised: 0 8px 24px rgb(26 31 44 / 8%);
+  --lo-shadow-raised: none;
 
   --lo-space-0: 0;
   --lo-space-1: 4px;
@@ -29,7 +32,7 @@
   --lo-space-10: 40px;
 
   --lo-size-control-sm: 44px;
-  --lo-size-control: 44px;
+  --lo-size-control: 50px;
   --lo-size-cell: 60px;
   --lo-size-content: 640px;
 
@@ -56,23 +59,26 @@
 
 :where(.lo-ui-root[data-lo-theme="dark"]) {
   color-scheme: dark;
-  --lo-color-canvas: #111318;
-  --lo-color-surface: #1a1d24;
-  --lo-color-surface-raised: #20242c;
-  --lo-color-text: #f4f5f7;
+  --lo-color-canvas: #0b0e17;
+  --lo-color-surface: #111522;
+  --lo-color-surface-raised: #1e2336;
+  --lo-color-text: #f7fbff;
   --lo-color-text-secondary: #aeb3bd;
   --lo-color-border: #353a45;
+  --lo-color-control-border: #697486;
   --lo-color-border-subtle: #292d36;
-  --lo-color-accent: #8d9cff;
-  --lo-color-accent-hover: #a4b0ff;
-  --lo-color-accent-contrast: #111528;
-  --lo-color-accent-soft: #262d56;
+  --lo-color-accent: #5969fc;
+  --lo-color-accent-fill: #5060e8;
+  --lo-color-accent-text: #91a2ff;
+  --lo-color-accent-hover: #4655df;
+  --lo-color-accent-contrast: #f7fbff;
+  --lo-color-accent-soft: #1a2040;
   --lo-color-danger: #ff8c96;
-  --lo-color-danger-hover: #ffa4ad;
+  --lo-color-danger-hover: #b52f40;
   --lo-color-danger-soft: #44242a;
-  --lo-color-focus: #a4b0ff;
+  --lo-color-focus: #91a2ff;
   --lo-color-disabled: #737985;
-  --lo-shadow-raised: 0 8px 28px rgb(0 0 0 / 24%);
+  --lo-shadow-raised: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -81,23 +87,26 @@
     .lo-ui-root[data-lo-theme="system"]
   ) {
     color-scheme: dark;
-    --lo-color-canvas: #111318;
-    --lo-color-surface: #1a1d24;
-    --lo-color-surface-raised: #20242c;
-    --lo-color-text: #f4f5f7;
+    --lo-color-canvas: #0b0e17;
+    --lo-color-surface: #111522;
+    --lo-color-surface-raised: #1e2336;
+    --lo-color-text: #f7fbff;
     --lo-color-text-secondary: #aeb3bd;
     --lo-color-border: #353a45;
+    --lo-color-control-border: #697486;
     --lo-color-border-subtle: #292d36;
-    --lo-color-accent: #8d9cff;
-    --lo-color-accent-hover: #a4b0ff;
-    --lo-color-accent-contrast: #111528;
-    --lo-color-accent-soft: #262d56;
+    --lo-color-accent: #5969fc;
+    --lo-color-accent-fill: #5060e8;
+    --lo-color-accent-text: #91a2ff;
+    --lo-color-accent-hover: #4655df;
+    --lo-color-accent-contrast: #f7fbff;
+    --lo-color-accent-soft: #1a2040;
     --lo-color-danger: #ff8c96;
-    --lo-color-danger-hover: #ffa4ad;
+    --lo-color-danger-hover: #b52f40;
     --lo-color-danger-soft: #44242a;
-    --lo-color-focus: #a4b0ff;
+    --lo-color-focus: #91a2ff;
     --lo-color-disabled: #737985;
-    --lo-shadow-raised: 0 8px 28px rgb(0 0 0 / 24%);
+    --lo-shadow-raised: none;
   }
 }
 

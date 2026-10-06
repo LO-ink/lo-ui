@@ -87,6 +87,12 @@ function App() {
               <Button disabled>Unavailable</Button>
               <Button size="small">Compact action</Button>
             </Inline>
+            <Checkbox
+              label="Unavailable checkbox"
+              defaultChecked
+              disabled
+              labelHidden
+            />
             <TextField
               label="List name"
               value={name}

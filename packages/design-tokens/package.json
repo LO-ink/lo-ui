@@ -1,6 +1,6 @@
 {
   "name": "@lo-ink/design-tokens",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Semantic design tokens for LO web interfaces",
   "type": "module",
   "license": "MIT",

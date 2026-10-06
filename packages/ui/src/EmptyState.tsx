@@ -6,6 +6,7 @@ export interface EmptyStateProps extends Omit<
   "title"
 > {
   title: ReactNode;
+  headingLevel?: 2 | 3 | 4 | 5 | 6;
   description?: ReactNode;
   icon?: ReactNode;
   action?: ReactNode;
@@ -13,12 +14,14 @@ export interface EmptyStateProps extends Omit<
 
 export function EmptyState({
   title,
+  headingLevel = 2,
   description,
   icon,
   action,
   className,
   ...props
 }: EmptyStateProps) {
+  const Tag = `h${headingLevel}` as "h2" | "h3" | "h4" | "h5" | "h6";
   return (
     <div {...props} className={classes("lo-ui-empty-state", className)}>
       {icon && (
@@ -26,7 +29,7 @@ export function EmptyState({
           {icon}
         </div>
       )}
-      <h2 className="lo-ui-empty-state__title">{title}</h2>
+      <Tag className="lo-ui-empty-state__title">{title}</Tag>
       {description && (
         <p className="lo-ui-empty-state__description">{description}</p>
       )}

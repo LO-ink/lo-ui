@@ -129,3 +129,34 @@ it("minimal controls remain named and a read-only row has no button", () => {
   fireEvent.click(control);
   expect(control).toBeChecked();
 });
+
+it("headings preserve section levels and caller attributes", () => {
+  const { rerender } = render(
+    <Heading level={3} id="section-title">
+      Section
+    </Heading>,
+  );
+  expect(
+    screen.getByRole("heading", { level: 3, name: "Section" }),
+  ).toHaveAttribute("id", "section-title");
+  rerender(<Heading>Page</Heading>);
+  expect(screen.getByRole("heading", { level: 1, name: "Page" })).toBeVisible();
+});
+
+it("embedded list and empty-state titles preserve the containing section hierarchy", () => {
+  render(
+    <>
+      <List label="Choices" headingLevel={4}>
+        <Cell title="One" />
+      </List>
+      <EmptyState title="No choices" headingLevel={4} />
+    </>,
+  );
+  expect(
+    screen.getByRole("heading", { name: "Choices", level: 4 }),
+  ).toBeVisible();
+  expect(
+    screen.getByRole("heading", { name: "No choices", level: 4 }),
+  ).toBeVisible();
+  expect(screen.getByRole("list", { name: "Choices" })).toBeVisible();
+});
