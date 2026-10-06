@@ -138,3 +138,21 @@ glyphs, character mappings, metrics and embedded license metadata.
 regular/medium/bold weights, success/error tones, title/display sizes and the
 three LO font families. Consumers can format report data without defining a
 second typography system.
+
+## Tabs and compact fields
+
+`Tabs` provides controlled, horizontally scrollable navigation with a single selected pill, whole labels, arrow/Home/End keyboard navigation, and optional panel relationships. Use tabs for navigation instead of action buttons. Disabled options are skipped by keyboard navigation.
+
+```tsx
+<Tabs
+  aria-label="Sections"
+  value={section}
+  onValueChange={setSection}
+  options={[
+    { value: "checks", label: "Checks", panelId: "content" },
+    { value: "manual", label: "Manual", panelId: "content" },
+  ]}
+/>
+```
+
+Outlined `TextField` geometry follows LO inputs: 44 px minimum height, 10 px corners and padding. Borders retain the accessible contrast token. `variant="search"` provides the compact filled search appearance. `Surface` defaults to a 10 px inset; explicit spacing tokens remain supported.

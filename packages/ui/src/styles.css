@@ -33,9 +33,10 @@
   border: 1px solid transparent;
   border-radius: var(--lo-radius-full);
   min-width: 0;
+  flex-shrink: 0;
   max-width: 100%;
   white-space: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   text-align: center;
   display: inline-flex;
   align-items: center;
@@ -147,16 +148,74 @@
 .lo-ui-field__input {
   width: 100%;
   min-width: 0;
-  min-height: var(--lo-size-control);
-  padding: 10px var(--lo-space-3);
+  min-height: 44px;
+  padding: 9px 10px;
   color: var(--lo-color-text);
   background: var(--lo-color-surface);
   border: 1px solid var(--lo-color-control-border);
-  border-radius: var(--lo-radius-md);
+  border-radius: 10px;
   font-size: 16px;
   transition:
     border-color var(--lo-motion-fast) var(--lo-ease-out),
     box-shadow var(--lo-motion-fast) var(--lo-ease-out);
+}
+
+.lo-ui-field__input--search {
+  min-height: 38px;
+  padding: 6px 15px;
+  border-color: transparent;
+  border-radius: 6px;
+  background: #76768015;
+  font-size: 14px;
+}
+
+.lo-ui-tabs {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding: 2px;
+}
+.lo-ui-tabs::-webkit-scrollbar {
+  display: none;
+}
+.lo-ui-tab {
+  position: relative;
+  isolation: isolate;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: var(--lo-radius-full);
+  color: var(--lo-color-text-secondary);
+  background: transparent;
+  font-size: var(--lo-font-size-label);
+  font-weight: var(--lo-font-weight-medium);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.lo-ui-tab[aria-selected="true"] {
+  color: var(--lo-color-accent-text);
+}
+.lo-ui-tab[aria-selected="true"]::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 5px 0;
+  border-radius: var(--lo-radius-full);
+  background: var(--lo-color-accent-soft);
+}
+.lo-ui-tab:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.lo-ui-tab:focus-visible {
+  outline-offset: -3px;
 }
 
 .lo-ui-field__input::placeholder {
