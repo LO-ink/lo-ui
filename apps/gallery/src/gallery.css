@@ -45,12 +45,7 @@ body {
 }
 
 .gallery-panel {
-  min-width: 0;
-  padding: clamp(18px, 3vw, 28px);
-  border: 1px solid var(--lo-color-border-subtle);
-  border-radius: calc(var(--lo-radius-lg) + 6px);
-  background: var(--lo-color-surface-raised);
-  box-shadow: var(--lo-shadow-raised);
+  align-self: start;
 }
 
 .gallery-title {

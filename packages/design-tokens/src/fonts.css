@@ -1,0 +1,375 @@
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-Black.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-BlackItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-BoldItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-ExtraBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-ExtraBoldItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-ExtraLight.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-ExtraLightItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-Italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-LightItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-MediumItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-SemiBoldItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-Thin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Display";
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+  src: url("./fonts/LOProDisplay-ThinItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("./fonts/LOProMono-Black.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url("./fonts/LOProMono-BlackItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/LOProMono-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("./fonts/LOProMono-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url("./fonts/LOProMono-LightItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/LOProMono-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/LOProMono-MediumItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/LOProMono-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/LOProMono-RegularItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/LOProMono-Semibold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro Mono";
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/LOProMono-SemiboldItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("./fonts/LOProUI-Black.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url("./fonts/LOProUI-BlackItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/LOProUI-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/LOProUI-BoldItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("./fonts/LOProUI-ExtraBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url("./fonts/LOProUI-ExtraBoldItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("./fonts/LOProUI-ExtraLight.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url("./fonts/LOProUI-ExtraLightItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/LOProUI-Italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("./fonts/LOProUI-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url("./fonts/LOProUI-LightItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/LOProUI-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/LOProUI-MediumItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/LOProUI-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/LOProUI-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/LOProUI-SemiBoldItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url("./fonts/LOProUI-Thin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "LO Pro UI";
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+  src: url("./fonts/LOProUI-ThinItalic.woff2") format("woff2");
+}

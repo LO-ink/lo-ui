@@ -14,6 +14,7 @@ export interface TextFieldProps extends Omit<
   description?: ReactNode;
   error?: ReactNode;
   inputClassName?: string;
+  labelHidden?: boolean;
 }
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
@@ -25,6 +26,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       id: providedId,
       className,
       inputClassName,
+      labelHidden = false,
       "aria-describedby": ariaDescribedBy,
       ...props
     },
@@ -39,7 +41,13 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       .join(" ");
 
     return (
-      <div className={classes("lo-ui-field", className)}>
+      <div
+        className={classes(
+          "lo-ui-field",
+          labelHidden && "lo-ui-field--label-hidden",
+          className,
+        )}
+      >
         <label className="lo-ui-field__label" htmlFor={id}>
           {label}
         </label>

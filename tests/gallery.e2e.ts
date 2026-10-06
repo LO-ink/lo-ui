@@ -323,3 +323,51 @@ for (const scheme of ["light", "dark"] as const) {
     ).toBe("999px");
   });
 }
+
+test("packaged LO fonts and multiline/modal semantics work in a narrow viewport", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 720 });
+  const failedFonts: string[] = [];
+  page.on("response", (response) => {
+    if (response.url().includes(".woff2") && !response.ok())
+      failedFonts.push(response.url());
+  });
+  await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
+  const faces = await page.evaluate(() =>
+    [...document.fonts]
+      .filter((face) => face.status === "loaded")
+      .map((face) => ({ family: face.family, weight: face.weight })),
+  );
+  expect(faces).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ family: "LO Pro UI", weight: "400" }),
+      expect.objectContaining({ family: "LO Pro UI", weight: "500" }),
+      expect.objectContaining({ family: "LO Pro UI", weight: "700" }),
+    ]),
+  );
+  expect(failedFonts).toEqual([]);
+  await page
+    .getByRole("textbox", { name: "Notes" })
+    .fill("First line\nSecond line");
+  await expect(page.getByRole("textbox", { name: "Notes" })).toHaveValue(
+    "First line\nSecond line",
+  );
+  const trigger = page.getByRole("button", { name: "Open dialog" });
+  await trigger.click();
+  const dialog = page.getByRole("dialog", { name: "Example dialog" });
+  await expect(dialog).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Close dialog" }),
+  ).toBeFocused();
+  const bounds = await dialog.boundingBox();
+  expect(bounds!.x).toBeGreaterThanOrEqual(0);
+  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(320);
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
+    320,
+  );
+});

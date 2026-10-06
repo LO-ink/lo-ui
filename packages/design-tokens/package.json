@@ -1,9 +1,9 @@
 {
   "name": "@lo-ink/design-tokens",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Semantic design tokens for LO web interfaces",
   "type": "module",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
     "url": "https://github.com/LO-ink/lo-ui.git",
@@ -17,7 +17,7 @@
   ],
   "files": [
     "dist",
-    "src"
+    "src/index.ts"
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -26,7 +26,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./tokens.css": "./dist/tokens.css"
+    "./tokens.css": "./dist/tokens.css",
+    "./fonts.css": "./dist/fonts.css"
   },
   "scripts": {
     "prepack": "npm run build",

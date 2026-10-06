@@ -15,3 +15,7 @@ export {
   type HeadingProps,
   type TextProps,
 } from "./Typography.js";
+export { TextArea, type TextAreaProps } from "./TextArea.js";
+export { Surface, type SurfaceProps } from "./Surface.js";
+export { Dialog } from "./Dialog.js";
+export { Progress } from "./Progress.js";
