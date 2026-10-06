@@ -421,8 +421,9 @@ test("tabs keep whole horizontal labels and compact input geometry at 320px", as
     await search.evaluate((e) => ({
       height: e.getBoundingClientRect().height,
       radius: getComputedStyle(e).borderRadius,
+      fontSize: getComputedStyle(e).fontSize,
     })),
-  ).toEqual({ height: 38, radius: "6px" });
+  ).toEqual({ height: 38, radius: "6px", fontSize: "16px" });
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
     320,
   );
