@@ -1,6 +1,6 @@
 {
   "name": "@lo-ink/ui",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Accessible React components for LO miniapps",
   "type": "module",
   "license": "MIT",
@@ -33,7 +33,7 @@
     "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs"
   },
   "dependencies": {
-    "@lo-ink/design-tokens": "0.1.1"
+    "@lo-ink/design-tokens": "0.2.0"
   },
   "peerDependencies": {
     "react": ">=18 <20",

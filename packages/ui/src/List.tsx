@@ -3,16 +3,19 @@ import { classes } from "./utils.js";
 
 export interface ListProps extends HTMLAttributes<HTMLUListElement> {
   label?: ReactNode;
+  headingLevel?: 2 | 3 | 4 | 5 | 6;
 }
 
 export function List({
   label,
+  headingLevel = 2,
   children,
   className,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
   ...props
 }: ListProps) {
+  const Tag = `h${headingLevel}` as "h2" | "h3" | "h4" | "h5" | "h6";
   const generatedId = useId();
   const labelId = label ? `${generatedId}-label` : undefined;
   const effectiveLabelledBy =
@@ -20,9 +23,9 @@ export function List({
   return (
     <section className="lo-ui-list-section">
       {label && (
-        <h2 className="lo-ui-list-label" id={labelId}>
+        <Tag className="lo-ui-list-label" id={labelId}>
           {label}
-        </h2>
+        </Tag>
       )}
       <ul
         {...props}

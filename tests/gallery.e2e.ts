@@ -99,11 +99,11 @@ test("the explicit dark theme updates the rendered surface and browser scheme", 
       }),
     )
     .toEqual({
-      background: "rgb(17, 19, 24)",
-      color: "rgb(244, 245, 247)",
+      background: "rgb(11, 14, 23)",
+      color: "rgb(247, 251, 255)",
       scheme: "dark",
     });
-  expect(lightBackground).not.toBe("rgb(17, 19, 24)");
+  expect(lightBackground).not.toBe("rgb(11, 14, 23)");
 });
 
 test("primary controls are named, keyboard reachable, operable, and visibly focused", async ({
@@ -204,3 +204,112 @@ test("reduced-motion preference removes effective gallery motion", async ({
     ),
   ).toEqual([]);
 });
+
+for (const scheme of ["light", "dark"] as const) {
+  test(`${scheme} control states keep readable text and identifiable boundaries`, async ({
+    page,
+  }) => {
+    await page.goto("/");
+    if (scheme === "dark")
+      await page.getByRole("button", { name: "Dark theme" }).click();
+    const contrast = async (target: Locator, role: "text" | "border") =>
+      target.evaluate((element, role) => {
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = 1;
+        const context = canvas.getContext("2d")!;
+        const rgb = (value: string) => {
+          context.clearRect(0, 0, 1, 1);
+          context.fillStyle = value;
+          context.fillRect(0, 0, 1, 1);
+          const pixel = [...context.getImageData(0, 0, 1, 1).data];
+          return { channels: pixel.slice(0, 3), alpha: pixel[3] / 255 };
+        };
+        const blend = (front: ReturnType<typeof rgb>, back: number[]) =>
+          front.channels.map(
+            (channel, i) => channel * front.alpha + back[i] * (1 - front.alpha),
+          );
+        const ancestors: Element[] = [];
+        for (
+          let parent: Element | null = element;
+          parent;
+          parent = parent.parentElement
+        )
+          ancestors.unshift(parent);
+        let background = [255, 255, 255];
+        for (const parent of ancestors)
+          background = blend(
+            rgb(getComputedStyle(parent).backgroundColor),
+            background,
+          );
+        const style = getComputedStyle(element);
+        const foreground = blend(
+          rgb(role === "text" ? style.color : style.borderTopColor),
+          background,
+        );
+        const luminance = (channels: number[]) =>
+          channels
+            .map((channel) => {
+              const value = channel / 255;
+              return value <= 0.04045
+                ? value / 12.92
+                : ((value + 0.055) / 1.055) ** 2.4;
+            })
+            .reduce(
+              (sum, value, i) => sum + value * [0.2126, 0.7152, 0.0722][i],
+              0,
+            );
+        const a = luminance(foreground),
+          b = luminance(background);
+        return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+      }, role);
+    for (const name of [
+      "Save changes",
+      "Cancel",
+      "Remove",
+      "Learn more",
+      "Compact action",
+    ]) {
+      const button = page.getByRole("button", { name, exact: true });
+      await page.mouse.move(0, 0);
+      expect(
+        await contrast(button, "text"),
+        `${name} default`,
+      ).toBeGreaterThanOrEqual(4.5);
+      await button.hover();
+      await page.waitForTimeout(180);
+      expect(
+        await contrast(button, "text"),
+        `${name} hover`,
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+    expect(
+      await contrast(
+        page.getByRole("textbox", { name: "List name" }),
+        "border",
+      ),
+    ).toBeGreaterThanOrEqual(3);
+    expect(
+      await contrast(
+        page.getByRole("checkbox", { name: "Private list" }),
+        "border",
+      ),
+    ).toBeGreaterThanOrEqual(3);
+    const disabled = page.getByRole("checkbox", {
+      name: "Unavailable checkbox",
+    });
+    await expect(disabled).toBeDisabled();
+    expect(
+      await disabled.evaluate((element) => getComputedStyle(element).opacity),
+    ).toBe("0.5");
+    expect(
+      await disabled.evaluate((element) => getComputedStyle(element).cursor),
+    ).toBe("default");
+    const save = page.getByRole("button", { name: "Save changes" });
+    expect(
+      await save.evaluate((element) => getComputedStyle(element).minHeight),
+    ).toBe("50px");
+    expect(
+      await save.evaluate((element) => getComputedStyle(element).borderRadius),
+    ).toBe("999px");
+  });
+}

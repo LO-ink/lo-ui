@@ -9,4 +9,9 @@ export {
   type SelectionControlProps,
 } from "./SelectionControl.js";
 export { TextField, type TextFieldProps } from "./TextField.js";
-export { Heading, Text, type TextProps } from "./Typography.js";
+export {
+  Heading,
+  Text,
+  type HeadingProps,
+  type TextProps,
+} from "./Typography.js";

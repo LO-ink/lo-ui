@@ -12,7 +12,7 @@ export const spacing = {
 
 export const sizes = {
   controlSmall: "44px",
-  control: "44px",
+  control: "50px",
   cell: "60px",
   content: "640px",
 } as const;

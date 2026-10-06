@@ -25,9 +25,11 @@ export function Text({
   );
 }
 
-export function Heading({
-  className,
-  ...props
-}: HTMLAttributes<HTMLHeadingElement>) {
-  return <h1 {...props} className={classes("lo-ui-heading", className)} />;
+export interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+}
+
+export function Heading({ level = 1, className, ...props }: HeadingProps) {
+  const Tag = `h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  return <Tag {...props} className={classes("lo-ui-heading", className)} />;
 }

@@ -48,6 +48,8 @@ Set `data-lo-theme="light"` or `data-lo-theme="dark"` for an explicit theme. App
 ```css
 .my-miniapp {
   --lo-color-accent: #34784b;
+  --lo-color-accent-fill: #34784b;
+  --lo-color-accent-text: #28603b;
   --lo-color-accent-hover: #28603b;
   --lo-color-accent-soft: #e8f5ec;
 }
@@ -93,3 +95,19 @@ Repository policy checks require Python 3 for Python comment tokenization. YAML
 comments are parsed as YAML; embedded scripts and localized scalar values retain
 their own language. LO credentials are checked by the root Gitleaks configuration
 and a synthetic scanner regression before each repository scan.
+
+## Native LO baseline
+
+Base canvas, surface, text and brand accent follow LO `reactnative-ui/src/theme/v2/colors.ts`. Buttons follow `ButtonWrapper`: 50px default height, pill corners and tinted secondary controls. Caption contrast and keyboard focus are web accessibility adaptations; the kit does not reproduce native glass effects or ship the proprietary LO font. `--lo-color-accent-text` separates readable text accents from the filled brand color, especially in dark mode. Theme overrides should set it alongside `--lo-color-accent` when the host supplies a different brand.
+
+`Heading` accepts `level={2}` (levels 1–6) so galleries and nested sections preserve heading order. All components retain semantic HTML, accessible names and keyboard interactions.
+
+The brand accent remains `#5969FC`. Filled web controls use
+`--lo-color-accent-fill` (`#5060E8`) so normal-size white labels pass WCAG AA;
+`--lo-color-accent-text` separates text on pale surfaces from that fill.
+`--lo-color-control-border` provides a 3:1 control boundary without darkening
+list separators. These are accessibility adaptations of the native palette.
+Custom themes must provide equivalent foreground, fill, hover, and boundary
+contrast; overriding the brand accent alone does not replace those roles.
+
+`List` and `EmptyState` accept `headingLevel` (2–6, default 2) for embedded section titles.
