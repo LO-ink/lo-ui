@@ -12,6 +12,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -31,6 +32,7 @@ try {
     "LICENSE",
     "package.json",
     "package-lock.json",
+    "scripts/build-package.mjs",
   ]) {
     await cp(join(root, file), join(source, file), {
       recursive: true,
@@ -53,9 +55,52 @@ try {
   const archives = [];
   for (const name of ["design-tokens", "ui"]) {
     const directory = join(source, "packages", name);
-    const packed = JSON.parse(
-      run("npm", ["pack", "--json", "--cache", join(temp, "cache")], directory),
-    )[0];
+    const pack = () =>
+      JSON.parse(
+        run(
+          "npm",
+          ["pack", "--json", "--cache", join(temp, "cache")],
+          directory,
+        ),
+      )[0];
+    const contents = async (packed) =>
+      Promise.all(
+        packed.files.map(async (file) => [
+          file.path,
+          createHash("sha256")
+            .update(await readFile(join(directory, file.path)))
+            .digest("hex"),
+        ]),
+      );
+    const packed = pack();
+    const cleanContents = await contents(packed);
+    // Generate actual output, then remove its source without cleaning dist/cache.
+    const obsoleteSource = join(directory, "src", "removed-source.ts");
+    await writeFile(obsoleteSource, "export const obsolete = true;\n");
+    const obsoleteFont = join(directory, "src", "fonts", "removed-font.woff2");
+    if (name === "design-tokens")
+      await writeFile(obsoleteFont, "Synthetic obsolete font fixture");
+    run("npm", ["run", "build"], directory);
+    assert.ok(await readFile(join(directory, "dist", "removed-source.js")));
+    await rm(obsoleteSource);
+    if (name === "design-tokens") {
+      assert.ok(
+        await readFile(join(directory, "dist", "fonts", "removed-font.woff2")),
+      );
+      await rm(obsoleteFont);
+    }
+    assert.deepEqual(
+      await contents(pack()),
+      cleanContents,
+      `${name}: removed source or assets survived prepack`,
+    );
+    // Rebuilding with retained incremental metadata must regenerate every output.
+    await rm(join(directory, "dist"), { recursive: true });
+    assert.deepEqual(
+      await contents(pack()),
+      cleanContents,
+      `${name}: incremental metadata hid missing output`,
+    );
     for (const path of [
       "dist/index.js",
       "dist/index.d.ts",
