@@ -74,3 +74,17 @@ npm run ci
 ## License
 
 [MIT](./LICENSE)
+
+## Quality checks
+
+Run `make install` and `make ci` with Node.js 22.13 or newer. The same targets run
+in GitHub Actions. CI checks formatting, ESLint (including typed promises),
+TypeScript, dependency cycles and package boundaries, tests, published package
+contents, vulnerable dependencies and secrets. English documentation and comments
+are enforced; unfinished development notes and retired repository URLs fail CI.
+
+Coverage includes unimported production files and fails below 90% lines and
+statements, 90% functions, or 80% branches. Reports are uploaded as CI artifacts.
+
+`make browser` checks the gallery at 320px, keyboard controls, dark theme and
+reduced motion after installing Chromium with `npx playwright install chromium`.

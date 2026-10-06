@@ -5,3 +5,12 @@ playwright-report
 test-results
 *.tsbuildinfo
 .DS_Store
+coverage/
+.venv/
+.ruff_cache/
+.mypy_cache/
+
+.coverage
+.coverage.*
+**/*.egg-info/
+**/build/

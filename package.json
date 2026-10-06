@@ -17,8 +17,15 @@
     "test:browser": "playwright test",
     "typecheck": "tsc -b --pretty false",
     "format:check": "prettier --check .",
-    "ci": "npm run typecheck && npm test && npm run format:check && npm run test:packages",
-    "test:packages": "node scripts/test-packages.mjs"
+    "ci": "make ci",
+    "test:packages": "node scripts/test-packages.mjs",
+    "lint": "eslint . --max-warnings 0",
+    "architecture": "depcruise --config .dependency-cruiser.cjs packages/*/src apps/*/src",
+    "format": "prettier --write .",
+    "security": "npm audit --audit-level=high",
+    "test:coverage": "npm run build && vitest run --coverage",
+    "policy": "node scripts/check-policy.mjs",
+    "secrets": "node scripts/check-secrets.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
@@ -29,9 +36,16 @@
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.2",
     "jsdom": "^26.1.0",
-    "prettier": "^3.6.2",
+    "prettier": "3.9.6",
     "typescript": "^5.9.2",
     "vite": "^7.1.5",
-    "vitest": "^3.2.4"
+    "vitest": "5.0.3",
+    "eslint": "10.12.0",
+    "@eslint/js": "10.0.1",
+    "typescript-eslint": "8.71.1",
+    "globals": "16.5.0",
+    "dependency-cruiser": "17.4.3",
+    "@vitest/coverage-v8": "5.0.3",
+    "@types/node": "24.13.3"
   }
 }
