@@ -133,3 +133,8 @@ library code and does not relicense the fonts.
 The supplied Mono BoldItalic file has upright glyph metadata and is excluded
 from the web font declarations. The remaining 47 faces preserve their original
 glyphs, character mappings, metrics and embedded license metadata.
+
+`Text` supports inline, emphasis and code/pre semantics through `as`, shared
+regular/medium/bold weights, success/error tones, title/display sizes and the
+three LO font families. Consumers can format report data without defining a
+second typography system.

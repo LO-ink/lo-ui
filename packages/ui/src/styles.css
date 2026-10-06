@@ -686,3 +686,32 @@
     background-position: 50% 0;
   }
 }
+
+.lo-ui-text--title {
+  font-size: 26px;
+}
+.lo-ui-text--display {
+  font-size: 40px;
+  line-height: var(--lo-line-height-tight);
+}
+.lo-ui-text--success {
+  color: var(--lo-color-success);
+}
+.lo-ui-text--weight-regular {
+  font-weight: var(--lo-font-weight-regular);
+}
+.lo-ui-text--weight-medium {
+  font-weight: var(--lo-font-weight-medium);
+}
+.lo-ui-text--weight-bold {
+  font-weight: var(--lo-font-weight-bold);
+}
+.lo-ui-text--family-ui {
+  font-family: var(--lo-font-family);
+}
+.lo-ui-text--family-display {
+  font-family: var(--lo-font-family-display);
+}
+.lo-ui-text--family-mono {
+  font-family: var(--lo-font-family-mono);
+}

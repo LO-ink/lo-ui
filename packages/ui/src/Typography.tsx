@@ -1,24 +1,32 @@
 import { forwardRef, type HTMLAttributes } from "react";
 import { classes } from "./utils.js";
 
-export interface TextProps extends HTMLAttributes<HTMLParagraphElement> {
-  tone?: "primary" | "secondary" | "danger";
-  size?: "caption" | "label" | "body";
+export interface TextProps extends HTMLAttributes<HTMLElement> {
+  as?: "p" | "span" | "strong" | "code" | "pre";
+  tone?: "primary" | "secondary" | "danger" | "success";
+  weight?: "regular" | "medium" | "bold";
+  family?: "ui" | "display" | "mono";
+  size?: "caption" | "label" | "body" | "title" | "display";
 }
 
 export function Text({
+  as: Tag = "p",
   tone = "primary",
+  weight,
+  family,
   size = "body",
   className,
   ...props
 }: TextProps) {
   return (
-    <p
+    <Tag
       {...props}
       className={classes(
         "lo-ui-text",
         `lo-ui-text--${tone}`,
         `lo-ui-text--${size}`,
+        weight && `lo-ui-text--weight-${weight}`,
+        family && `lo-ui-text--family-${family}`,
         className,
       )}
     />

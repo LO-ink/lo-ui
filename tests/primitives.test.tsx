@@ -207,3 +207,18 @@ it("surface, dialog and progress preserve native semantics and caller control", 
     "25",
   );
 });
+
+it("inline typography retains semantic emphasis and shared font/tone roles", () => {
+  render(
+    <Text as="strong" tone="success" size="title" weight="medium" family="mono">
+      Complete
+    </Text>,
+  );
+  const text = screen.getByText("Complete");
+  expect(text.tagName).toBe("STRONG");
+  expect(text).toHaveClass(
+    "lo-ui-text--success",
+    "lo-ui-text--family-mono",
+    "lo-ui-text--weight-medium",
+  );
+});
