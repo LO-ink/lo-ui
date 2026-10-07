@@ -39,6 +39,10 @@ export function Tabs({
   )
     ? value
     : options.find((option) => !option.disabled)?.value;
+  // Recreated arrays and labels must not override a user's manual scrolling.
+  const optionStructure = JSON.stringify(
+    options.map((option) => [option.value, Boolean(option.disabled)]),
+  );
   useEffect(() => {
     const selected = row.current?.querySelector<HTMLElement>(
       '[aria-selected="true"]',
@@ -51,7 +55,7 @@ export function Tabs({
       viewport.scrollLeft += bounds.left - visible.left;
     else if (bounds.right > visible.right)
       viewport.scrollLeft += bounds.right - visible.right;
-  }, [value, options]);
+  }, [value, optionStructure]);
   return (
     <div
       {...props}
