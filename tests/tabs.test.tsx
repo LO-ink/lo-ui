@@ -81,6 +81,50 @@ it("selection scrolls only the horizontal tab viewport in both directions", () =
   rerender(<Tabs value="a" onValueChange={() => {}} options={options} />);
   expect(row.scrollLeft).toBe(0);
 });
+it("equivalent options and recreated labels preserve manual scroll across parent renders", () => {
+  const options = () => [
+    { value: "a", label: <span>One</span> },
+    { value: "b", label: <span>Two</span>, disabled: false },
+  ];
+  const { rerender } = render(
+    <Tabs value="a" onValueChange={() => {}} options={options()} />,
+  );
+  const row = screen.getByRole("tablist");
+  const one = screen.getByRole("tab", { name: "One" });
+  row.getBoundingClientRect = () => ({ left: 0, right: 100 }) as DOMRect;
+  one.getBoundingClientRect = () =>
+    ({ left: -row.scrollLeft, right: 80 - row.scrollLeft }) as DOMRect;
+  row.scrollLeft = 150;
+  rerender(<Tabs value="a" onValueChange={() => {}} options={options()} />);
+  expect(row.scrollLeft).toBe(150);
+});
+it("changed option order, membership and disabled state still reveal the selected tab", () => {
+  const options = [
+    { value: "a", label: "One" },
+    { value: "b", label: "Two" },
+  ];
+  const props = { value: "a", onValueChange: () => {} };
+  const { rerender } = render(<Tabs {...props} options={options} />);
+  const row = screen.getByRole("tablist");
+  const one = screen.getByRole("tab", { name: "One" });
+  row.getBoundingClientRect = () => ({ left: 0, right: 100 }) as DOMRect;
+  one.getBoundingClientRect = () => {
+    const left = Array.from(row.children).indexOf(one) * 100 - row.scrollLeft;
+    return { left, right: left + 80 } as DOMRect;
+  };
+  rerender(<Tabs {...props} options={[options[1], options[0]]} />);
+  expect(row.scrollLeft).toBe(80);
+  rerender(<Tabs {...props} options={[options[0]]} />);
+  expect(row.scrollLeft).toBe(0);
+  row.scrollLeft = 80;
+  rerender(<Tabs {...props} options={[{ ...options[0], disabled: true }]} />);
+  expect(row.scrollLeft).toBe(0);
+  expect(one).toBeDisabled();
+  row.scrollLeft = 80;
+  rerender(<Tabs {...props} options={[options[0]]} />);
+  expect(row.scrollLeft).toBe(0);
+  expect(one).not.toBeDisabled();
+});
 it("search fields keep labels and validation, surfaces retain explicit spacing", () => {
   const { rerender } = render(
     <Surface>
