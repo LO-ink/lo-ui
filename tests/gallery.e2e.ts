@@ -2,7 +2,12 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 
 async function tabTo(page: Page, target: Locator, attempts = 12) {
   for (let attempt = 0; attempt < attempts; attempt += 1) {
-    await page.keyboard.press("Tab");
+    await page.keyboard.press(
+      process.platform === "darwin" &&
+        page.context().browser()?.browserType().name() === "webkit"
+        ? "Alt+Tab"
+        : "Tab",
+    );
     if (await target.evaluate((element) => element === document.activeElement))
       return;
   }
@@ -114,7 +119,10 @@ test("primary controls are named, keyboard reachable, operable, and visibly focu
   const theme = page.getByRole("button", { name: "Dark theme" });
   const save = page.getByRole("button", { name: "Save changes" });
   const field = page.getByRole("textbox", { name: "List name" });
-  const notifications = page.getByRole("switch", { name: "Notifications" });
+  const notifications = page.getByRole("switch", {
+    name: "Notifications",
+    exact: true,
+  });
   const privateList = page.getByRole("checkbox", { name: "Private list" });
   const appearance = page.getByRole("button", { name: /Appearance/ });
   const wishList = page.getByRole("button", { name: /Wish list/ });
@@ -366,7 +374,8 @@ test("packaged LO fonts and multiline/modal semantics work in a narrow viewport"
     "none",
   );
   const trigger = page.getByRole("button", { name: "Open dialog" });
-  await trigger.click();
+  await trigger.focus();
+  await page.keyboard.press("Enter");
   const dialog = page.getByRole("dialog", { name: "Example dialog" });
   await expect(dialog).toBeVisible();
   await expect(
@@ -452,4 +461,199 @@ test("RTL tabs reveal the selected label and use visual arrow direction", async 
   expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(
     visible!.x + visible!.width + 1,
   );
+});
+
+for (const theme of ["light", "dark"] as const) {
+  test(`${theme} forced colors preserve switch, tab and progress states`, async ({
+    page,
+    browserName,
+  }) => {
+    test.skip(
+      browserName !== "chromium",
+      "WebKit does not emulate forced-colors media",
+    );
+    await page.emulateMedia({
+      forcedColors: "active",
+      reducedMotion: "reduce",
+    });
+    await page.goto("/");
+    if (theme === "dark")
+      await page.getByRole("button", { name: "Dark theme" }).click();
+    const toggle = page.getByRole("switch", {
+      name: "Notifications",
+      exact: true,
+    });
+    await toggle.uncheck();
+    await toggle.evaluate((element) => element.blur());
+    const off = await toggle.screenshot();
+    const visible = await toggle.evaluate((element) => {
+      const track = getComputedStyle(element);
+      const thumb = getComputedStyle(element, "::after");
+      return {
+        borderWidth: Number.parseFloat(track.borderTopWidth),
+        border: track.borderTopColor,
+        background: track.backgroundColor,
+        thumb: thumb.backgroundColor,
+      };
+    });
+    expect(visible.borderWidth).toBeGreaterThan(0);
+    expect(visible.border).not.toBe(visible.background);
+    expect(visible.thumb).not.toBe(visible.background);
+    await toggle.check();
+    await toggle.evaluate((element) => element.blur());
+    expect(off.equals(await toggle.screenshot())).toBe(false);
+
+    const selected = page.getByRole("tab", { name: "All", exact: true });
+    const marker = await selected.evaluate((element) => ({
+      text: getComputedStyle(element).color,
+      fill: getComputedStyle(element, "::before").backgroundColor,
+      canvas: getComputedStyle(document.querySelector("main")!).backgroundColor,
+    }));
+    expect(marker.fill).not.toBe(marker.canvas);
+    expect(marker.text).not.toBe(marker.fill);
+    await selected.focus();
+    await page.keyboard.press("ArrowRight");
+    await expectVisibleKeyboardFocus(
+      page.getByRole("tab", { name: "Permissions and device sensors" }),
+    );
+
+    const progress = page.getByRole("progressbar", {
+      name: "Example progress",
+    });
+    expect(
+      await progress.evaluate((element) =>
+        Number.parseFloat(getComputedStyle(element).borderTopWidth),
+      ),
+    ).toBeGreaterThan(0);
+    const partial = await progress.screenshot();
+    await progress.evaluate((element) => {
+      (element as HTMLProgressElement).value = 80;
+    });
+    expect(partial.equals(await progress.screenshot())).toBe(false);
+    const pending = page.getByRole("progressbar", { name: "Pending progress" });
+    expect(
+      await pending.evaluate(
+        (element) => getComputedStyle(element).backgroundImage,
+      ),
+    ).toContain("linear-gradient");
+    expect(
+      await pending.evaluate(
+        (element) => getComputedStyle(element).animationName,
+      ),
+    ).toBe("none");
+  });
+}
+
+test("unbroken button labels wrap within 320px with and without an icon", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
+  for (const prefix of ["OpenWorkspace_", "InspectWorkspace_"]) {
+    const button = page.getByRole("button", { name: new RegExp(`^${prefix}`) });
+    const geometry = await button.evaluate((element) => ({
+      width: element.clientWidth,
+      scroll: element.scrollWidth,
+      label:
+        element.querySelector(".lo-ui-button__label")?.getBoundingClientRect()
+          .height ?? 0,
+      icon: element
+        .querySelector(".lo-ui-button__icon")
+        ?.getBoundingClientRect().width,
+    }));
+    expect(geometry.scroll).toBeLessThanOrEqual(geometry.width);
+    expect(geometry.label).toBeGreaterThan(40);
+    if (prefix === "InspectWorkspace_") expect(geometry.icon).toBe(20);
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
+    320,
+  );
+});
+
+test("switch thumbs stay inside their tracks in inherited LTR and RTL directions", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const toggle = page.getByRole("switch", { name: "RTL notifications" });
+  for (const direction of ["ltr", "rtl"]) {
+    await toggle.evaluate(
+      (element, dir) => element.closest("[dir]")!.setAttribute("dir", dir),
+      direction,
+    );
+    const positions: number[] = [];
+    for (const checked of [false, true]) {
+      await toggle.setChecked(checked);
+      const thumb = await toggle.evaluate((element) => {
+        const track = getComputedStyle(element),
+          shape = getComputedStyle(element, "::after");
+        const width = element.getBoundingClientRect().width;
+        const size = Number.parseFloat(shape.width);
+        const translation =
+          shape.transform === "none" ? 0 : new DOMMatrix(shape.transform).m41;
+        const start =
+          track.direction === "rtl"
+            ? width -
+              Number.parseFloat(track.borderRightWidth) -
+              Number.parseFloat(track.paddingRight) -
+              size
+            : Number.parseFloat(track.borderLeftWidth) +
+              Number.parseFloat(track.paddingLeft);
+        return {
+          left: start + translation,
+          right: start + translation + size,
+          width,
+        };
+      });
+      expect(thumb.left).toBeGreaterThanOrEqual(0);
+      expect(thumb.right).toBeLessThanOrEqual(thumb.width);
+      positions.push(thumb.left);
+    }
+    expect(
+      direction === "rtl"
+        ? positions[0] - positions[1]
+        : positions[1] - positions[0],
+    ).toBeGreaterThan(0);
+  }
+});
+
+test("native indeterminate checkboxes show a distinct mixed state for either checked bit", async ({
+  page,
+  browserName,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const checkbox = page.getByRole("checkbox", {
+    name: "Partially selected group",
+  });
+  const modes =
+    browserName === "chromium"
+      ? (["none", "active"] as const)
+      : (["none"] as const);
+  for (const forcedColors of modes) {
+    await page.emulateMedia({ forcedColors });
+    const states: Buffer[] = [];
+    for (const [checked, indeterminate] of [
+      [false, false],
+      [true, false],
+      [false, true],
+      [true, true],
+    ]) {
+      await checkbox.evaluate(
+        (element, state) => {
+          const input = element as HTMLInputElement;
+          input.checked = state[0];
+          input.indeterminate = state[1];
+        },
+        [checked, indeterminate],
+      );
+      if (indeterminate)
+        await expect(checkbox).toBeChecked({ indeterminate: true });
+      states.push(await checkbox.screenshot());
+    }
+    expect(states[2].equals(states[0])).toBe(false);
+    expect(states[2].equals(states[1])).toBe(false);
+    expect(states[3].equals(states[2])).toBe(true);
+  }
 });

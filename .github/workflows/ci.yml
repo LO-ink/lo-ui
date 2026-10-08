@@ -38,7 +38,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: make install
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium webkit
       - run: make browser
       - if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

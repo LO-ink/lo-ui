@@ -112,7 +112,13 @@
   background: transparent;
 }
 
+.lo-ui-button__label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .lo-ui-button__icon {
+  flex: 0 0 auto;
   width: 20px;
   height: 20px;
   display: inline-grid;
@@ -327,6 +333,10 @@
   transform: translateX(20px);
 }
 
+.lo-ui-switch:dir(rtl):checked::after {
+  transform: translateX(-20px);
+}
+
 .lo-ui-switch:disabled {
   cursor: default;
   opacity: 0.55;
@@ -356,7 +366,8 @@
   transition: transform var(--lo-motion-fast) var(--lo-ease-out);
 }
 
-.lo-ui-checkbox:checked {
+.lo-ui-checkbox:checked,
+.lo-ui-checkbox:indeterminate {
   background: var(--lo-color-accent-fill);
   border-color: var(--lo-color-accent-fill);
 }
@@ -368,6 +379,12 @@
 
 .lo-ui-checkbox:checked::after {
   transform: translateY(-1px) rotate(-45deg) scale(1);
+}
+
+.lo-ui-checkbox:indeterminate::after {
+  height: 0;
+  border-width: 0 0 2px;
+  transform: none;
 }
 
 .lo-ui-list-section {
@@ -708,6 +725,57 @@
 .lo-ui-progress::-moz-progress-bar {
   background: var(--lo-color-accent);
   border-radius: var(--lo-radius-full);
+}
+
+@media (forced-colors: active) {
+  .lo-ui-switch,
+  .lo-ui-checkbox {
+    forced-color-adjust: none;
+    background: Canvas;
+    border: 1px solid ButtonText;
+    --lo-color-focus: ButtonText;
+  }
+
+  .lo-ui-switch {
+    padding: 1px;
+  }
+
+  .lo-ui-switch::after {
+    background: ButtonText;
+    box-shadow: none;
+  }
+
+  .lo-ui-switch:checked,
+  .lo-ui-checkbox:checked,
+  .lo-ui-checkbox:indeterminate {
+    background: Highlight;
+    border-color: Highlight;
+  }
+
+  .lo-ui-switch:checked::after {
+    background: HighlightText;
+  }
+
+  .lo-ui-checkbox::after {
+    border-color: HighlightText;
+  }
+
+  .lo-ui-tab[aria-selected="true"] {
+    forced-color-adjust: none;
+    color: HighlightText;
+    --lo-color-focus: ButtonText;
+  }
+
+  .lo-ui-tab[aria-selected="true"]::before {
+    background: Highlight;
+  }
+
+  .lo-ui-progress {
+    forced-color-adjust: none;
+    border: 1px solid CanvasText;
+    --lo-color-border: Canvas;
+    --lo-color-accent: Highlight;
+  }
 }
 
 :where(.lo-ui-root code, .lo-ui-root pre) {
