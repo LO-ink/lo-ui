@@ -40,6 +40,10 @@ function GiftIcon() {
   );
 }
 
+function showMixedState(input: HTMLInputElement | null) {
+  if (input) input.indeterminate = true;
+}
+
 function App() {
   const dialog = useRef<HTMLDialogElement>(null);
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -257,6 +261,24 @@ function App() {
               label="Search gallery"
               placeholder="Search"
             />
+          </Stack>
+        </Surface>
+        <Surface
+          className="gallery-panel"
+          aria-label="Content and selection states"
+        >
+          <Stack gap={4}>
+            <Heading level={2}>Content and selection states</Heading>
+            <Button>
+              OpenWorkspace_DesignSystemAccessibilityAndLocalizationReview_20261008_CompleteProjectArchive
+            </Button>
+            <Button leading={<GiftIcon />}>
+              InspectWorkspace_DesignSystemAccessibilityAndLocalizationReview_20261008_CompleteProjectArchive
+            </Button>
+            <Checkbox label="Partially selected group" ref={showMixedState} />
+            <div dir="rtl">
+              <Switch label="RTL notifications" defaultChecked />
+            </div>
           </Stack>
         </Surface>
       </div>

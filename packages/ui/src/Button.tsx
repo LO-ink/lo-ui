@@ -47,12 +47,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {loading ? (
           <>
             <span className="lo-ui-spinner" aria-hidden="true" />
-            <span>{loadingLabel}</span>
+            <span className="lo-ui-button__label">{loadingLabel}</span>
           </>
         ) : (
           <>
             {leading && <span className="lo-ui-button__icon">{leading}</span>}
-            <span>{children}</span>
+            <span className="lo-ui-button__label">{children}</span>
             {trailing && <span className="lo-ui-button__icon">{trailing}</span>}
           </>
         )}

@@ -12,10 +12,13 @@ export default defineConfig({
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL,
-    browserName: "chromium",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
+  projects: [
+    { name: "chromium", use: { browserName: "chromium" } },
+    { name: "webkit", use: { browserName: "webkit" } },
+  ],
   webServer: {
     command: `npm run build && npm run preview -w @lo/ui-gallery -- --port ${port}`,
     url: baseURL,
