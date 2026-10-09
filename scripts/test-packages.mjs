@@ -114,33 +114,67 @@ try {
     }
     archives.push(join(directory, packed.filename));
   }
-  await writeFile(
-    join(consumer, "package.json"),
-    JSON.stringify({ private: true, type: "module" }),
-  );
-  run(
-    "npm",
-    [
-      "install",
-      "--offline",
-      "--ignore-scripts",
-      "--legacy-peer-deps",
-      "--no-audit",
-      "--no-fund",
-      "--cache",
-      join(temp, "cache"),
-      ...archives,
-    ],
-    consumer,
-  );
-  // Supply the consumer's React peers separately from the packed LO libraries.
-  for (const name of ["react", "react-dom", "@types"]) {
-    await symlink(
-      join(root, "node_modules", name),
-      join(consumer, "node_modules", name),
-      "dir",
-    );
+  const peerDirectory = join(temp, "peers");
+  await mkdir(peerDirectory);
+  async function packPeer(modules, name) {
+    const packed = JSON.parse(
+      run(
+        "npm",
+        [
+          "pack",
+          "--json",
+          "--ignore-scripts",
+          "--pack-destination",
+          peerDirectory,
+          "--cache",
+          join(temp, "cache"),
+        ],
+        join(modules, name),
+      ),
+    )[0];
+    return join(peerDirectory, packed.filename);
   }
+  async function peerArchives(modules, react18 = false) {
+    const peers = [];
+    for (const name of [
+      "react",
+      "react-dom",
+      "scheduler",
+      "@types/react",
+      "@types/react-dom",
+    ])
+      peers.push(await packPeer(modules, name));
+    for (const name of react18
+      ? ["csstype", "@types/prop-types", "loose-envify", "js-tokens"]
+      : ["csstype"])
+      peers.push(await packPeer(join(root, "node_modules"), name));
+    return peers;
+  }
+  async function installConsumer(directory, peers, libraries = archives) {
+    await writeFile(
+      join(directory, "package.json"),
+      JSON.stringify({ private: true, type: "module" }),
+    );
+    run(
+      "npm",
+      [
+        "install",
+        "--offline",
+        "--ignore-scripts",
+        "--strict-peer-deps",
+        "--no-audit",
+        "--no-fund",
+        "--cache",
+        join(temp, "cache"),
+        ...libraries,
+        ...peers,
+      ],
+      directory,
+    );
+    run("npm", ["ls", "--all"], directory);
+  }
+  const react19Peers = await peerArchives(join(root, "node_modules"));
+  await installConsumer(consumer, react19Peers);
   await writeFile(
     join(consumer, "check.mjs"),
     `import { createElement } from 'react';
@@ -204,44 +238,11 @@ void ui;
 
   const react18Consumer = join(temp, "consumer-react18");
   await mkdir(react18Consumer);
-  await writeFile(
-    join(react18Consumer, "package.json"),
-    JSON.stringify({ private: true, type: "module" }),
+  const react18Peers = await peerArchives(
+    join(root, "apps", "react18-compat", "node_modules"),
+    true,
   );
-  run(
-    "npm",
-    [
-      "install",
-      "--offline",
-      "--ignore-scripts",
-      "--legacy-peer-deps",
-      "--no-audit",
-      "--no-fund",
-      "--cache",
-      join(temp, "cache"),
-      ...archives,
-    ],
-    react18Consumer,
-  );
-  const react18Modules = join(react18Consumer, "node_modules");
-  const react18FixtureModules = join(
-    root,
-    "apps",
-    "react18-compat",
-    "node_modules",
-  );
-  await mkdir(join(react18Modules, "@types"), { recursive: true });
-  for (const [source, target] of [
-    [join(react18FixtureModules, "react"), "react"],
-    [join(react18FixtureModules, "react-dom"), "react-dom"],
-    [join(react18FixtureModules, "@types", "react"), "@types/react"],
-    [join(react18FixtureModules, "@types", "react-dom"), "@types/react-dom"],
-    [join(react18FixtureModules, "scheduler"), "scheduler"],
-    [join(root, "node_modules", "@types", "prop-types"), "@types/prop-types"],
-    [join(root, "node_modules", "csstype"), "csstype"],
-  ]) {
-    await symlink(source, join(react18Modules, target), "dir");
-  }
+  await installConsumer(react18Consumer, react18Peers);
   await writeFile(
     join(react18Consumer, "check.mjs"),
     `import { createElement } from 'react';
@@ -251,7 +252,7 @@ const html = renderToStaticMarkup(createElement(Switch, {label:'Updates'}));
 if (!html.includes('Updates')) throw new Error('React 18 render failed');
 `,
   );
-  run(process.execPath, ["--preserve-symlinks", "check.mjs"], react18Consumer);
+  run(process.execPath, ["check.mjs"], react18Consumer);
   await writeFile(
     join(react18Consumer, "check.tsx"),
     `import {Button, Cell, List, Switch, Dialog, TextArea, Progress, Surface, Tabs} from '@lo-ink/ui';
@@ -269,7 +270,6 @@ void ui;
         join(root, "node_modules/typescript/bin/tsc"),
         "--noEmit",
         "--strict",
-        "--preserveSymlinks",
         "--target",
         "ES2022",
         "--jsx",
@@ -283,8 +283,43 @@ void ui;
       react18Consumer,
     );
   }
+  // An incompatible published peer contract must fail at installation.
+  const invalidDirectory = join(temp, "incompatible-peer");
+  await mkdir(invalidDirectory);
+  await writeFile(
+    join(invalidDirectory, "package.json"),
+    JSON.stringify({ private: true, type: "module" }),
+  );
+  const uiDirectory = join(source, "packages", "ui");
+  const uiManifestPath = join(uiDirectory, "package.json");
+  const uiManifest = JSON.parse(await readFile(uiManifestPath, "utf8"));
+  uiManifest.peerDependencies.react = ">=20 <21";
+  await writeFile(uiManifestPath, JSON.stringify(uiManifest));
+  const incompatible = JSON.parse(
+    run("npm", ["pack", "--json", "--cache", join(temp, "cache")], uiDirectory),
+  )[0];
+  const refusal = spawnSync(
+    "npm",
+    [
+      "install",
+      "--offline",
+      "--ignore-scripts",
+      "--strict-peer-deps",
+      "--no-audit",
+      "--no-fund",
+      "--cache",
+      join(temp, "cache"),
+      archives[0],
+      join(uiDirectory, incompatible.filename),
+      ...react19Peers,
+    ],
+    { cwd: invalidDirectory, encoding: "utf8" },
+  );
+  assert.notEqual(refusal.status, 0, "Incompatible React peer was installed");
+  assert.match(refusal.stderr, /ERESOLVE/);
+  assert.match(refusal.stderr, /peer react@">=20 <21"/);
   console.log(
-    "Clean UI tarballs: CSS build, license, React 18/19 SSR, and NodeNext/Bundler types pass.",
+    "Clean UI tarballs: strict React 18/19 installation, incompatible-peer rejection, CSS build, license, SSR, and NodeNext/Bundler types pass.",
   );
 } finally {
   await rm(temp, { recursive: true, force: true });
