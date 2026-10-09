@@ -568,6 +568,12 @@
   transform: rotate(90deg);
 }
 
+.lo-ui-disclosure:dir(rtl):not([open])
+  > .lo-ui-disclosure__summary
+  > .lo-ui-disclosure__chevron {
+  transform: scaleX(-1);
+}
+
 .lo-ui-disclosure__body {
   display: flex;
   flex-direction: column;

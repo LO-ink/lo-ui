@@ -80,6 +80,32 @@ test("disclosures retain native keyboard behavior and body state on narrow scree
   await details.screenshot({
     path: testInfo.outputPath("disclosure-dark.png"),
   });
+  const chevron = details.locator(".lo-ui-disclosure__chevron");
+  await page.getByRole("main").evaluate((element) => {
+    element.dir = "rtl";
+  });
+  await summary.focus();
+  await page.keyboard.press("Space");
+  await expect(details).not.toHaveAttribute("open");
+  expect(
+    await chevron.evaluate(
+      (element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a,
+    ),
+  ).toBe(-1);
+  await page.keyboard.press("Space");
+  await expect(details).toHaveAttribute("open", "");
+  expect(
+    await chevron.evaluate(
+      (element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).b,
+    ),
+  ).toBe(1);
+  await page.getByRole("main").evaluate((element) => {
+    element.dir = "ltr";
+  });
+  await page.keyboard.press("Space");
+  expect(
+    await chevron.evaluate((element) => getComputedStyle(element).transform),
+  ).toBe("none");
 });
 
 test("the gallery fits a 320px viewport without hiding content sideways", async ({
