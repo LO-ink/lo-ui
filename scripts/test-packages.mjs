@@ -179,17 +179,22 @@ try {
     join(consumer, "check.mjs"),
     `import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Button, Cell, List, Dialog, TextArea, Progress, Surface, Tabs } from '@lo-ink/ui';
+import { Button, Cell, List, Dialog, TextArea, Progress, Surface, Tabs, Disclosure } from '@lo-ink/ui';
 const html = renderToStaticMarkup(createElement(List, null, createElement(Cell, {title:'Saved app', trailingAction:createElement(Button,null,'Open')})));
 if (!html.includes('Saved app') || !html.includes('Open')) throw new Error('Render failed');
+const disclosed = renderToStaticMarkup(createElement(Disclosure, {summary:'Result', trailing:'Confirmed', open:true}, 'Saved result'));
+if (!disclosed.includes('<summary') || !disclosed.includes('Confirmed') || !disclosed.includes('open=') || !disclosed.includes('Saved result')) throw new Error('Disclosure SSR failed');
 `,
   );
   run(process.execPath, ["check.mjs"], consumer);
   await writeFile(
     join(consumer, "check.tsx"),
-    `import {Button, Cell, List, Switch, Dialog, TextArea, Progress, Surface, Tabs} from '@lo-ink/ui';
+    `import {Button, Cell, List, Switch, Dialog, TextArea, Progress, Surface, Tabs, Disclosure} from '@lo-ink/ui';
 const ui = <List><Cell title="Preferences" trailingAction={<Switch label="Updates" />} /><Cell title="App" onPress={() => {}} trailingAction={<Button>Open</Button>} /></List>;
 const tabs = <Tabs value="all" onValueChange={() => {}} options={[{value:"all",label:"All"}]} />;
+const disclosureRef: {current: HTMLDetailsElement | null} = {current:null};
+const disclosure = <Disclosure ref={disclosureRef} summary="Result" trailing="Confirmed" open onToggle={(event) => {event.currentTarget.open;}}>Saved result</Disclosure>;
+void disclosure;
 const extended = <Surface><Dialog><TextArea label="Notes" /><Progress value={10} max={100} /></Dialog></Surface>;
 void extended;
 void ui;
@@ -247,17 +252,22 @@ void ui;
     join(react18Consumer, "check.mjs"),
     `import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Switch } from '@lo-ink/ui';
+import { Switch, Disclosure } from '@lo-ink/ui';
 const html = renderToStaticMarkup(createElement(Switch, {label:'Updates'}));
 if (!html.includes('Updates')) throw new Error('React 18 render failed');
+const disclosed = renderToStaticMarkup(createElement(Disclosure, {summary:'Result', trailing:'Confirmed', open:true}, 'Saved result'));
+if (!disclosed.includes('<summary') || !disclosed.includes('Confirmed') || !disclosed.includes('open=') || !disclosed.includes('Saved result')) throw new Error('React 18 Disclosure SSR failed');
 `,
   );
   run(process.execPath, ["check.mjs"], react18Consumer);
   await writeFile(
     join(react18Consumer, "check.tsx"),
-    `import {Button, Cell, List, Switch, Dialog, TextArea, Progress, Surface, Tabs} from '@lo-ink/ui';
+    `import {Button, Cell, List, Switch, Dialog, TextArea, Progress, Surface, Tabs, Disclosure} from '@lo-ink/ui';
 const ui = <List><Cell title="Preferences" trailingAction={<Switch label="Updates" />} /><Cell title="App" trailing="Current" onPress={() => {}} /><Button>Open</Button></List>;
 const tabs = <Tabs value="all" onValueChange={() => {}} options={[{value:"all",label:"All"}]} />;
+const disclosureRef: {current: HTMLDetailsElement | null} = {current:null};
+const disclosure = <Disclosure ref={disclosureRef} summary="Result" trailing="Confirmed" open onToggle={(event) => {event.currentTarget.open;}}>Saved result</Disclosure>;
+void disclosure;
 const extended = <Surface><Dialog><TextArea label="Notes" /><Progress value={10} max={100} /></Dialog></Surface>;
 void extended;
 void ui;

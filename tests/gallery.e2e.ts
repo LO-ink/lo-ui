@@ -28,6 +28,60 @@ async function expectVisibleKeyboardFocus(target: Locator) {
   expect(focus.width).toBeGreaterThanOrEqual(2);
 }
 
+test("disclosures retain native keyboard behavior and body state on narrow screens", async ({
+  page,
+}, testInfo) => {
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto("/");
+  const summary = page
+    .locator("summary")
+    .filter({ hasText: "Detailed results and saved SDK versions" });
+  const details = summary.locator("..");
+  await details.evaluate((element) => {
+    element.querySelector(".lo-ui-disclosure__trailing")!.textContent =
+      "NotYetCheckedByTheNativeApplication";
+    element.querySelector(".lo-ui-disclosure__body p")!.textContent =
+      "VeryLongSavedResultWithoutAnySpacesToVerifyNarrowScreenWrapping";
+  });
+  const notes = page.getByRole("textbox", {
+    name: "Result notes",
+    includeHidden: true,
+  });
+  await expect(notes).toBeHidden();
+  await summary.focus();
+  await expectVisibleKeyboardFocus(summary);
+  await page.keyboard.press("Enter");
+  await expect(details).toHaveAttribute("open", "");
+  await expect(notes).toBeVisible();
+  await notes.fill("Preserved across collapse");
+  await summary.focus();
+  await page.keyboard.press("Space");
+  await expect(details).not.toHaveAttribute("open");
+  await expect(notes).toBeHidden();
+  await page.keyboard.press("Space");
+  await expect(notes).toHaveValue("Preserved across collapse");
+  const geometry = await summary.evaluate((element) => ({
+    width: element.clientWidth,
+    contentWidth: element.scrollWidth,
+    height: element.getBoundingClientRect().height,
+  }));
+  expect(geometry.contentWidth).toBe(geometry.width);
+  expect(geometry.height).toBeGreaterThanOrEqual(44);
+  await details.screenshot({
+    path: testInfo.outputPath("disclosure-light.png"),
+  });
+  const light = await summary.evaluate(
+    (element) => getComputedStyle(element).color,
+  );
+  await page.getByRole("button", { name: "Dark theme" }).click();
+  await expect
+    .poll(() => summary.evaluate((element) => getComputedStyle(element).color))
+    .not.toBe(light);
+  await details.screenshot({
+    path: testInfo.outputPath("disclosure-dark.png"),
+  });
+});
+
 test("the gallery fits a 320px viewport without hiding content sideways", async ({
   page,
 }) => {

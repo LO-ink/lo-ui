@@ -126,6 +126,19 @@ explicit child content remain controlled by the caller.
 help and validation to a multiline field. `Progress` retains native determinate
 and indeterminate semantics. `TextField` also supports file selection.
 
+`Disclosure` wraps native `details` and `summary`, with shared row spacing and
+focus tokens. Supply `summary` for its label and optional `trailing` for
+noninteractive status. Put buttons and fields in its body. Native `open`,
+`onToggle`, `name` and ref attributes remain available; collapsing preserves
+body state. The chevron is decorative and keyboard behavior stays native.
+
+```tsx
+<Disclosure summary="Detailed result" trailing="Confirmed">
+  <Text>Saved result details</Text>
+  <Button variant="secondary">Download report</Button>
+</Disclosure>
+```
+
 The design tokens ship LO Pro UI, LO Pro Display and LO Pro Mono as WOFF2,
 with the supplied weights and verified italic faces. Importing the UI stylesheet loads the
 font declarations; browsers download only the faces used by the page. UI text

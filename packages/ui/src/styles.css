@@ -513,6 +513,69 @@
   stroke-linejoin: round;
 }
 
+.lo-ui-disclosure__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--lo-space-3);
+  min-height: var(--lo-size-cell);
+  padding: 10px var(--lo-space-4);
+  font: inherit;
+  color: var(--lo-color-text);
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lo-ui-disclosure__summary::-webkit-details-marker {
+  display: none;
+}
+
+.lo-ui-disclosure__summary:focus-visible {
+  outline: 3px solid var(--lo-color-focus);
+  outline-offset: -3px;
+}
+
+.lo-ui-disclosure__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.lo-ui-disclosure__trailing {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 40%;
+  overflow-wrap: anywhere;
+  text-align: end;
+  color: var(--lo-color-text-secondary);
+  font-size: var(--lo-font-size-label);
+}
+
+.lo-ui-disclosure__chevron {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: var(--lo-color-text-secondary);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lo-ui-disclosure[open]
+  > .lo-ui-disclosure__summary
+  > .lo-ui-disclosure__chevron {
+  transform: rotate(90deg);
+}
+
+.lo-ui-disclosure__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lo-space-3);
+  padding: var(--lo-space-3) var(--lo-space-4) var(--lo-space-4);
+  overflow-wrap: anywhere;
+}
+
 .lo-ui-app-icon {
   width: 44px;
   height: 44px;
