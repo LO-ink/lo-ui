@@ -18,5 +18,6 @@ export {
 export { TextArea, type TextAreaProps } from "./TextArea.js";
 export { Surface, type SurfaceProps } from "./Surface.js";
 export { Dialog } from "./Dialog.js";
+export { Disclosure, type DisclosureProps } from "./Disclosure.js";
 export { Progress } from "./Progress.js";
 export { Tabs, type TabsProps, type TabOption } from "./Tabs.js";

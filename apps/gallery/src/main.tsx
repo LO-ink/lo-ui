@@ -4,6 +4,7 @@ import {
   AppIcon,
   Tabs,
   Dialog,
+  Disclosure,
   Surface,
   TextArea,
   Progress,
@@ -222,6 +223,16 @@ function App() {
             <TextField label="Attachment" type="file" />
             <Progress value={40} max={100} aria-label="Example progress" />
             <Progress aria-label="Pending progress" />
+            <Disclosure
+              summary="Detailed results and saved SDK versions"
+              trailing="Awaiting native confirmation"
+            >
+              <Text tone="secondary">
+                Expanding these details does not start another check.
+              </Text>
+              <TextField label="Result notes" />
+              <Button variant="secondary">Download results</Button>
+            </Disclosure>
             <Button onClick={() => dialog.current?.showModal()}>
               Open dialog
             </Button>
