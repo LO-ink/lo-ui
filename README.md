@@ -116,6 +116,10 @@ contrast; overriding the brand accent alone does not replace those roles.
 subtle border, 22 px corners, a 26 px title and height determined by its content.
 The icon keeps its own visual appearance rather than gaining an extra tile.
 
+`AppIcon` follows native miniapp identity geometry: a square with a corner radius
+of 20% of its size. Image content uses cover fitting; accessible labels and
+explicit child content remain controlled by the caller.
+
 `Surface` separates groups using shared surface, border and spacing tokens.
 `Dialog` wraps the native dialog element and forwards its ref; callers control
 `showModal()`, `close()` and cancellation. `TextArea` connects its visible label,
