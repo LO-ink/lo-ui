@@ -106,6 +106,107 @@ async function expectVisibleKeyboardFocus(target: Locator) {
   expect(focus.width).toBeGreaterThanOrEqual(2);
 }
 
+for (const theme of ["light", "dark"] as const) {
+  test(`${theme} disclosures preserve short metadata and bound long metadata`, async ({
+    page,
+  }, testInfo) => {
+    await page.setViewportSize({ width: 320, height: 720 });
+    await page.goto("/");
+    if (theme === "dark")
+      await page.getByRole("button", { name: "Dark theme" }).click();
+    await page.evaluate(() => document.fonts.ready);
+    const main = page.getByRole("main");
+    const details = page.locator(".lo-ui-disclosure").first();
+    await details.evaluate((element) => {
+      document.querySelector("main")!.append(element);
+      (element as HTMLElement).style.width = "278px";
+      element.querySelector(".lo-ui-disclosure__label")!.textContent =
+        "Подробности проверки";
+      element.querySelector(".lo-ui-disclosure__trailing")!.textContent = "3 шага";
+    });
+    const summary = details.locator("summary");
+    const trailing = summary.locator(".lo-ui-disclosure__trailing");
+    const geometry = () =>
+      summary.evaluate((element) => {
+        const style = getComputedStyle(element);
+        const nodes = [
+          element.querySelector(".lo-ui-disclosure__label")!,
+          element.querySelector(".lo-ui-disclosure__trailing")!,
+          element.querySelector(".lo-ui-disclosure__chevron")!,
+        ];
+        const boxes = nodes.map((node) => node.getBoundingClientRect());
+        const sorted = [...boxes].sort((left, right) => left.left - right.left);
+        const range = document.createRange();
+        range.selectNodeContents(nodes[1]!);
+        const lines = new Set(
+          [...range.getClientRects()].map((rect) => Math.round(rect.top)),
+        );
+        const box = element.getBoundingClientRect();
+        const contentWidth =
+          element.clientWidth -
+          Number.parseFloat(style.paddingLeft) -
+          Number.parseFloat(style.paddingRight);
+        return {
+          lines: lines.size,
+          width: box.width,
+          trailingWidth: boxes[1]!.width,
+          contentWidth,
+          arrowWidth: boxes[2]!.width,
+          overlaps: sorted.some(
+            (rect, index) => index > 0 && rect.left < sorted[index - 1]!.right,
+          ),
+          contained: boxes.every(
+            (rect) => rect.left >= box.left && rect.right <= box.right,
+          ),
+          overflow: element.scrollWidth > element.clientWidth,
+        };
+      });
+    for (const direction of ["ltr", "rtl", "local-ltr"] as const) {
+      await main.evaluate(
+        (element, dir) => (element.dir = dir === "ltr" ? "ltr" : "rtl"),
+        direction,
+      );
+      await details.evaluate((element, dir) => {
+        if (dir === "local-ltr") element.setAttribute("dir", "ltr");
+        else element.removeAttribute("dir");
+      }, direction);
+      const short = await geometry();
+      expect(short.lines).toBe(1);
+      expect(short.width).toBe(278);
+      expect(short.arrowWidth).toBe(18);
+      expect(short.overlaps).toBe(false);
+      expect(short.contained).toBe(true);
+      expect(short.overflow).toBe(false);
+      await details.screenshot({
+        path: testInfo.outputPath(`disclosure-${theme}-${direction}-short.png`),
+      });
+      await trailing.evaluate((element) => {
+        element.textContent = "ОченьДлинноеЗначениеПроверкиБезПробелов".repeat(3);
+      });
+      const long = await geometry();
+      expect(long.lines).toBeGreaterThan(1);
+      expect(long.trailingWidth).toBeLessThanOrEqual(long.contentWidth * 0.4 + 1);
+      expect(long.arrowWidth).toBe(18);
+      expect(long.overlaps).toBe(false);
+      expect(long.contained).toBe(true);
+      expect(long.overflow).toBe(false);
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth),
+      ).toBe(320);
+      await details.screenshot({
+        path: testInfo.outputPath(`disclosure-${theme}-${direction}-long.png`),
+      });
+      await trailing.evaluate((element) => (element.textContent = "3 шага"));
+    }
+    await summary.focus();
+    await expectVisibleKeyboardFocus(summary);
+    await page.keyboard.press("Enter");
+    await expect(details).toHaveAttribute("open", "");
+    await page.keyboard.press("Space");
+    await expect(details).not.toHaveAttribute("open");
+  });
+}
+
 test("disclosures retain native keyboard behavior and body state on narrow screens", async ({
   page,
 }, testInfo) => {
