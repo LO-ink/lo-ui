@@ -204,6 +204,14 @@ for (const theme of ["light", "dark"] as const) {
       await trailing.evaluate((element) => (element.textContent = "3 шага"));
     }
     await summary.focus();
+    await page.keyboard.press(
+      process.platform === "darwin" &&
+        page.context().browser()?.browserType().name() === "webkit"
+        ? "Alt+Shift+Tab"
+        : "Shift+Tab",
+    );
+    await expect(summary).not.toBeFocused();
+    await tabTo(page, summary, 2);
     await expectVisibleKeyboardFocus(summary);
     await page.keyboard.press("Enter");
     await expect(details).toHaveAttribute("open", "");
