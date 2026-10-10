@@ -1,7 +1,4 @@
 {
-  "sourceRepository": "https://git.lo.ink/LO/app",
-  "sourceCommit": "4fc2adc27f79f8b5425e1d6ebd2d907b53eefdc3",
-  "sourceDirectory": "packages/lo-app/src/assets/fonts",
   "fonts": [
     {
       "file": "LOProDisplay-Black.woff2",
