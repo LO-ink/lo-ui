@@ -1,6 +1,6 @@
 {
   "name": "@lo-ink/ui",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Accessible React components for LO miniapps",
   "type": "module",
   "license": "MIT",

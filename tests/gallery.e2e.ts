@@ -1,5 +1,83 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
+for (const theme of ["light", "dark"] as const) {
+  test(`${theme} cells align text and navigation with inherited direction`, async ({
+    page,
+  }, testInfo) => {
+    await page.setViewportSize({ width: 320, height: 720 });
+    await page.goto("/");
+    if (theme === "dark")
+      await page.getByRole("button", { name: "Dark theme" }).click();
+    await page.evaluate(() => document.fonts.ready);
+    const main = page.getByRole("main");
+    const apps = page.getByRole("list", { name: "My apps" });
+    const garden = apps.locator(".lo-ui-cell").last();
+    const notifications = page
+      .getByRole("list", { name: "Preferences" })
+      .locator(".lo-ui-cell")
+      .first();
+    const arrowDirection = () =>
+      garden.locator(".lo-ui-cell__chevron path").evaluate((element) => {
+        const matrix = (element as SVGGraphicsElement).getScreenCTM()!;
+        const tip = new DOMPoint(13.5, 10).matrixTransform(matrix);
+        const tail = new DOMPoint(7.5, 10).matrixTransform(matrix);
+        return tip.x - tail.x;
+      });
+    for (const direction of ["ltr", "rtl"] as const) {
+      await main.evaluate((element, dir) => (element.dir = dir), direction);
+      for (const cell of [garden, notifications]) {
+        const title = cell.locator(".lo-ui-cell__title");
+        await title.evaluate((element, dir) => {
+          element.textContent =
+            dir === "rtl" ? "إعدادات الحساب" : "Account settings";
+        }, direction);
+        const geometry = await title.evaluate((element, dir) => {
+          const range = document.createRange();
+          range.selectNodeContents(element);
+          const text = range.getBoundingClientRect();
+          const box = element.getBoundingClientRect();
+          return {
+            gap: dir === "rtl" ? box.right - text.right : text.left - box.left,
+            remainingWidth: box.width - text.width,
+          };
+        }, direction);
+        expect(geometry.remainingWidth).toBeGreaterThan(2);
+        expect(Math.abs(geometry.gap)).toBeLessThanOrEqual(1);
+      }
+      expect(
+        (await arrowDirection()) * (direction === "rtl" ? -1 : 1),
+      ).toBeGreaterThan(0);
+      await apps.screenshot({
+        path: testInfo.outputPath(`cells-${theme}-${direction}.png`),
+      });
+    }
+    await garden.evaluate((element) => (element.dir = "ltr"));
+    expect(await arrowDirection()).toBeGreaterThan(0);
+    const localTitle = garden.locator(".lo-ui-cell__title");
+    await localTitle.evaluate((element) => (element.textContent = "Account"));
+    const localGap = await localTitle.evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return (
+        range.getBoundingClientRect().left -
+        element.getBoundingClientRect().left
+      );
+    });
+    expect(Math.abs(localGap)).toBeLessThanOrEqual(1);
+    const appearance = page.getByRole("button", { name: /Appearance/ });
+    await appearance.focus();
+    await page.keyboard.press("Enter");
+    await expect(
+      page.getByRole("button", {
+        name: theme === "light" ? "Light theme" : "Dark theme",
+      }),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth),
+    ).toBe(320);
+  });
+}
+
 async function tabTo(page: Page, target: Locator, attempts = 12) {
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     await page.keyboard.press(
@@ -546,12 +624,7 @@ test("RTL tabs reveal the selected label and use visual arrow direction", async 
 for (const theme of ["light", "dark"] as const) {
   test(`${theme} forced colors preserve switch, tab and progress states`, async ({
     page,
-    browserName,
   }) => {
-    test.skip(
-      browserName !== "chromium",
-      "WebKit does not emulate forced-colors media",
-    );
     await page.emulateMedia({
       forcedColors: "active",
       reducedMotion: "reduce",
