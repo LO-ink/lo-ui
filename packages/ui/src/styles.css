@@ -546,7 +546,7 @@
 }
 
 .lo-ui-disclosure__trailing {
-  flex: 0 1 auto;
+  flex: 0 0 auto;
   min-width: 0;
   max-width: 40%;
   overflow-wrap: anywhere;
