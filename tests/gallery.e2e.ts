@@ -122,7 +122,8 @@ for (const theme of ["light", "dark"] as const) {
       (element as HTMLElement).style.width = "278px";
       element.querySelector(".lo-ui-disclosure__label")!.textContent =
         "Подробности проверки";
-      element.querySelector(".lo-ui-disclosure__trailing")!.textContent = "3 шага";
+      element.querySelector(".lo-ui-disclosure__trailing")!.textContent =
+        "3 шага";
     });
     const summary = details.locator("summary");
     const trailing = summary.locator(".lo-ui-disclosure__trailing");
@@ -181,11 +182,15 @@ for (const theme of ["light", "dark"] as const) {
         path: testInfo.outputPath(`disclosure-${theme}-${direction}-short.png`),
       });
       await trailing.evaluate((element) => {
-        element.textContent = "ОченьДлинноеЗначениеПроверкиБезПробелов".repeat(3);
+        element.textContent = "ОченьДлинноеЗначениеПроверкиБезПробелов".repeat(
+          3,
+        );
       });
       const long = await geometry();
       expect(long.lines).toBeGreaterThan(1);
-      expect(long.trailingWidth).toBeLessThanOrEqual(long.contentWidth * 0.4 + 1);
+      expect(long.trailingWidth).toBeLessThanOrEqual(
+        long.contentWidth * 0.4 + 1,
+      );
       expect(long.arrowWidth).toBe(18);
       expect(long.overlaps).toBe(false);
       expect(long.contained).toBe(true);
