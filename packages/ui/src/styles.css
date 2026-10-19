@@ -498,6 +498,9 @@
 }
 
 .lo-ui-cell__trailing {
+  min-width: 0;
+  max-width: 40%;
+  overflow-wrap: anywhere;
   color: var(--lo-color-text-secondary);
   font-size: var(--lo-font-size-label);
 }

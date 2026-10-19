@@ -66,7 +66,7 @@ npm install
 npm run dev       # gallery at http://127.0.0.1:5173
 npm run typecheck
 npm test
-npx playwright install chromium
+npx playwright install chromium webkit
 npm run test:browser
 npm run ci
 ```
@@ -89,7 +89,8 @@ Coverage includes unimported production files and fails below 90% lines and
 statements, 90% functions, or 80% branches. Reports are uploaded as CI artifacts.
 
 `make browser` checks the gallery at 320px, keyboard controls, dark theme and
-reduced motion after installing Chromium with `npx playwright install chromium`.
+reduced motion after installing Chromium and WebKit with
+`npx playwright install chromium webkit`.
 
 Repository policy checks require Python 3 for Python comment tokenization. YAML
 comments are parsed as YAML; embedded scripts and localized scalar values retain
