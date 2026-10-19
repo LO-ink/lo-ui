@@ -78,6 +78,109 @@ for (const theme of ["light", "dark"] as const) {
   });
 }
 
+for (const theme of ["light", "dark"] as const) {
+  test(`${theme} cells retain long metadata and readable titles on narrow screens`, async ({
+    page,
+  }, testInfo) => {
+    await page.goto("/");
+    if (theme === "dark")
+      await page.getByRole("button", { name: "Dark theme" }).click();
+    await page.evaluate(() => document.fonts.ready);
+    const main = page.getByRole("main");
+    const appearance = page.getByRole("button", { name: /Appearance/ });
+    const wishList = page.getByRole("button", { name: /Wish list/ });
+    const cases = [
+      "Waiting for the administrator to approve your workspace invitation",
+      "Workspace_0123456789abcdef0123456789abcdef0123456789abcdef",
+    ];
+    for (const width of [320, 280]) {
+      await page.setViewportSize({ width, height: 720 });
+      for (const direction of ["ltr", "rtl", "local-ltr"] as const) {
+        await main.evaluate(
+          (element, dir) => (element.dir = dir === "ltr" ? "ltr" : "rtl"),
+          direction,
+        );
+        for (const cell of [appearance, wishList]) {
+          await cell.evaluate((element, dir) => {
+            if (dir === "local-ltr") element.dir = "ltr";
+            else element.removeAttribute("dir");
+          }, direction);
+          for (const [index, status] of cases.entries()) {
+            const trailing = cell.locator(".lo-ui-cell__trailing");
+            await trailing.evaluate(
+              (element, data) => {
+                element.replaceChildren();
+                const content = data.rich
+                  ? document.createElement("span")
+                  : document.createTextNode("");
+                content.textContent = data.status;
+                element.append(content);
+              },
+              { status, rich: index === 1 },
+            );
+            await expect(trailing).toHaveText(status);
+            const geometry = await cell.evaluate((element) => {
+              const row = element.getBoundingClientRect();
+              const body = element.querySelector(".lo-ui-cell__body")!;
+              const metadata = element.querySelector(".lo-ui-cell__trailing")!;
+              const textFits = (container: Element) => {
+                const box = container.getBoundingClientRect();
+                const range = document.createRange();
+                range.selectNodeContents(container);
+                return [...range.getClientRects()].every(
+                  (rect) =>
+                    rect.left >= box.left - 1 &&
+                    rect.right <= box.right + 1 &&
+                    rect.top >= box.top - 1 &&
+                    rect.bottom <= box.bottom + 1,
+                );
+              };
+              const trailingBox = metadata.getBoundingClientRect();
+              return {
+                bodyWidth: body.getBoundingClientRect().width,
+                textFits: [
+                  ...body.querySelectorAll(
+                    ".lo-ui-cell__title, .lo-ui-cell__subtitle",
+                  ),
+                  metadata,
+                ].every(textFits),
+                contained:
+                  trailingBox.left >= row.left &&
+                  trailingBox.right <= row.right,
+                overflow: element.scrollWidth > element.clientWidth,
+              };
+            });
+            expect(geometry.bodyWidth).toBeGreaterThanOrEqual(40);
+            expect(geometry.textFits).toBe(true);
+            expect(geometry.contained).toBe(true);
+            expect(geometry.overflow).toBe(false);
+          }
+        }
+      }
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth),
+      ).toBe(width);
+    }
+    await page.getByRole("list", { name: "My apps" }).screenshot({
+      path: testInfo.outputPath(`long-cell-metadata-${theme}.png`),
+    });
+    await appearance.focus();
+    await page.keyboard.press("Enter");
+    await expect(
+      page.getByRole("button", {
+        name: theme === "light" ? "Light theme" : "Dark theme",
+      }),
+    ).toBeVisible();
+    const notifications = page.getByRole("switch", {
+      name: "Notifications",
+      exact: true,
+    });
+    await notifications.focus();
+    await page.keyboard.press("Space");
+    await expect(notifications).not.toBeChecked();
+  });
+}
+
 async function tabTo(page: Page, target: Locator, attempts = 12) {
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     await page.keyboard.press(
