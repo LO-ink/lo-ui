@@ -173,17 +173,28 @@ try {
     );
     run("npm", ["ls", "--all"], directory);
   }
+  const formContentSsr = `
+for (const Control of [TextField, TextArea, Checkbox, Switch]) {
+  const isField = Control === TextField || Control === TextArea;
+  for (const value of Number.parseInt(reactVersion) >= 19 ? [0, 0n, "0"] : [0, "0"]) {
+    const html = renderToStaticMarkup(createElement(Control, {id:"count", label:value, description:value, ...(isField ? {error:value} : {})}));
+    if (!html.includes('id="count-description"') || !html.includes('aria-describedby="count-description') || !html.includes('>0<')) throw new Error('Zero form description SSR failed');
+    if (isField && (!html.includes('id="count-error"') || !html.includes('aria-invalid="true"'))) throw new Error('Zero form error SSR failed');
+  }
+}
+`;
   const react19Peers = await peerArchives(join(root, "node_modules"));
   await installConsumer(consumer, react19Peers);
   await writeFile(
     join(consumer, "check.mjs"),
-    `import { createElement } from 'react';
+    `import { createElement, version as reactVersion } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Button, Cell, List, Dialog, TextArea, Progress, Surface, Tabs, Disclosure } from '@lo-ink/ui';
+import { Button, Cell, List, Dialog, TextArea, Progress, Surface, Tabs, Disclosure, TextField, Checkbox, Switch } from '@lo-ink/ui';
 const html = renderToStaticMarkup(createElement(List, null, createElement(Cell, {title:'Saved app', trailingAction:createElement(Button,null,'Open')})));
 if (!html.includes('Saved app') || !html.includes('Open')) throw new Error('Render failed');
 const disclosed = renderToStaticMarkup(createElement(Disclosure, {summary:'Result', trailing:'Confirmed', open:true}, 'Saved result'));
 if (!disclosed.includes('<summary') || !disclosed.includes('Confirmed') || !disclosed.includes('open=') || !disclosed.includes('Saved result')) throw new Error('Disclosure SSR failed');
+${formContentSsr}
 `,
   );
   run(process.execPath, ["check.mjs"], consumer);
@@ -252,13 +263,14 @@ void ui;
   await installConsumer(react18Consumer, react18Peers);
   await writeFile(
     join(react18Consumer, "check.mjs"),
-    `import { createElement } from 'react';
+    `import { createElement, version as reactVersion } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Switch, Disclosure } from '@lo-ink/ui';
+import { Switch, Disclosure, TextField, TextArea, Checkbox } from '@lo-ink/ui';
 const html = renderToStaticMarkup(createElement(Switch, {label:'Updates'}));
 if (!html.includes('Updates')) throw new Error('React 18 render failed');
 const disclosed = renderToStaticMarkup(createElement(Disclosure, {summary:'Result', trailing:'Confirmed', open:true}, 'Saved result'));
 if (!disclosed.includes('<summary') || !disclosed.includes('Confirmed') || !disclosed.includes('open=') || !disclosed.includes('Saved result')) throw new Error('React 18 Disclosure SSR failed');
+${formContentSsr}
 `,
   );
   run(process.execPath, ["check.mjs"], react18Consumer);

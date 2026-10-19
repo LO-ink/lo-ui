@@ -1,5 +1,5 @@
 import { forwardRef, useId, type HTMLAttributes, type ReactNode } from "react";
-import { classes } from "./utils.js";
+import { classes, hasContent } from "./utils.js";
 
 export interface ListProps extends HTMLAttributes<HTMLUListElement> {
   label?: ReactNode;
@@ -17,7 +17,7 @@ export function List({
 }: ListProps) {
   const Tag = `h${headingLevel}` as "h2" | "h3" | "h4" | "h5" | "h6";
   const generatedId = useId();
-  const hasLabel = Boolean(label) || label === 0 || label === 0n;
+  const hasLabel = hasContent(label);
   const labelId = hasLabel ? `${generatedId}-label` : undefined;
   const effectiveLabelledBy =
     ariaLabelledBy ?? (ariaLabel === undefined ? labelId : undefined);
@@ -69,11 +69,10 @@ export const Cell = forwardRef<HTMLLIElement, CellProps>(function Cell(
   },
   ref,
 ) {
-  const hasLeading = Boolean(leading) || leading === 0 || leading === 0n;
-  const hasSubtitle = Boolean(subtitle) || subtitle === 0 || subtitle === 0n;
-  const hasTrailing = Boolean(trailing) || trailing === 0 || trailing === 0n;
-  const hasTrailingAction =
-    Boolean(trailingAction) || trailingAction === 0 || trailingAction === 0n;
+  const hasLeading = hasContent(leading);
+  const hasSubtitle = hasContent(subtitle);
+  const hasTrailing = hasContent(trailing);
+  const hasTrailingAction = hasContent(trailingAction);
   const content = (
     <>
       {hasLeading && <span className="lo-ui-cell__leading">{leading}</span>}
