@@ -191,6 +191,8 @@ if (!disclosed.includes('<summary') || !disclosed.includes('Confirmed') || !disc
     join(consumer, "check.tsx"),
     `import {Button, Cell, List, Switch, Dialog, TextArea, Progress, Surface, Tabs, Disclosure} from '@lo-ink/ui';
 const ui = <List><Cell title="Preferences" trailingAction={<Switch label="Updates" />} /><Cell title="App" onPress={() => {}} trailingAction={<Button>Open</Button>} /></List>;
+const zero = <List label={0n}><Cell title="Unread" leading={0n} subtitle={0n} trailing={0n} trailingAction={0n} /></List>;
+void zero;
 const tabs = <Tabs value="all" onValueChange={() => {}} options={[{value:"all",label:"All"}]} />;
 const disclosureRef: {current: HTMLDetailsElement | null} = {current:null};
 const disclosure = <Disclosure ref={disclosureRef} summary="Result" trailing="Confirmed" open onToggle={(event) => {event.currentTarget.open;}}>Saved result</Disclosure>;
@@ -264,6 +266,11 @@ if (!disclosed.includes('<summary') || !disclosed.includes('Confirmed') || !disc
     join(react18Consumer, "check.tsx"),
     `import {Button, Cell, List, Switch, Dialog, TextArea, Progress, Surface, Tabs, Disclosure} from '@lo-ink/ui';
 const ui = <List><Cell title="Preferences" trailingAction={<Switch label="Updates" />} /><Cell title="App" trailing="Current" onPress={() => {}} /><Button>Open</Button></List>;
+const zero = <List label={0}><Cell title="Unread" leading={0} subtitle={0} trailing={0} trailingAction={0} /></List>;
+void zero;
+// @ts-expect-error React 18 ReactNode does not support bigint children.
+const bigint = <List label={0n}><Cell title="Unread" trailing={0n} /></List>;
+void bigint;
 const tabs = <Tabs value="all" onValueChange={() => {}} options={[{value:"all",label:"All"}]} />;
 const disclosureRef: {current: HTMLDetailsElement | null} = {current:null};
 const disclosure = <Disclosure ref={disclosureRef} summary="Result" trailing="Confirmed" open onToggle={(event) => {event.currentTarget.open;}}>Saved result</Disclosure>;

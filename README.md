@@ -162,7 +162,10 @@ CI checks formatting, ESLint, TypeScript, dependency boundaries, packed React
 18/19 consumers, vulnerable dependencies and secrets. Coverage includes
 unimported production files and requires 90% lines/statements/functions and
 80% branches. The browser gate checks the gallery at 320px, keyboard controls,
-dark theme and reduced motion in Chromium and WebKit.
+dark theme and reduced motion in Chromium and WebKit. Axe scans all 18
+primitives in light/dark themes at desktop and narrow widths, including
+validation, selection, disclosure and modal states. Automated scans complement
+keyboard tests; they do not replace screen-reader testing.
 
 Documentation and comments must be in English; unfinished development notes and
 retired repository URLs fail policy checks. Gitleaks uses the repository

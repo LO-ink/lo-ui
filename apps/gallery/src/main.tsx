@@ -188,6 +188,11 @@ function App() {
                 onPress={() => undefined}
               />
               <Cell
+                title="Unread updates"
+                trailing={0}
+                onPress={() => undefined}
+              />
+              <Cell
                 leading={
                   <AppIcon className="gallery-green">
                     <span aria-hidden="true">🌱</span>
