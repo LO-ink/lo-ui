@@ -66,6 +66,82 @@ describe("Switch", () => {
 });
 
 describe("List", () => {
+  it.each([0, 0n])(
+    "preserves zero (%s) as labelled, styled content and suppresses the chevron",
+    (zero) => {
+      const onPress = vi.fn();
+      const { container } = render(
+        <List label={zero}>
+          <Cell
+            title="Unread"
+            leading={zero}
+            subtitle={zero}
+            trailing={zero}
+            onPress={onPress}
+          />
+        </List>,
+      );
+      expect(screen.getByRole("heading", { name: "0" })).toBeInTheDocument();
+      expect(screen.getByRole("list", { name: "0" })).toBeInTheDocument();
+      for (const slot of ["leading", "subtitle", "trailing"]) {
+        expect(
+          container.querySelector(`.lo-ui-cell__${slot}`),
+        ).toHaveTextContent("0");
+      }
+      expect(container.querySelector(".lo-ui-cell__chevron")).toBeNull();
+      fireEvent.click(screen.getByRole("button", { name: "0 Unread 0 0" }));
+      expect(onPress).toHaveBeenCalledOnce();
+    },
+  );
+  it.each([false, null, undefined, ""])(
+    "keeps empty optional content absent (%s)",
+    (empty) => {
+      const { container } = render(
+        <List label={empty}>
+          <Cell
+            title="Unread"
+            leading={empty}
+            subtitle={empty}
+            trailing={empty}
+            trailingAction={empty}
+            onPress={() => undefined}
+          />
+        </List>,
+      );
+      expect(screen.queryByRole("heading")).toBeNull();
+      expect(screen.getByRole("list")).not.toHaveAttribute("aria-labelledby");
+      for (const slot of [
+        "leading",
+        "subtitle",
+        "trailing",
+        "trailing-action",
+      ]) {
+        expect(container.querySelector(`.lo-ui-cell__${slot}`)).toBeNull();
+      }
+      expect(
+        container.querySelector(".lo-ui-cell__chevron"),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Unread" }),
+      ).toBeInTheDocument();
+    },
+  );
+  it.each([0, 0n])(
+    "keeps a zero trailing action (%s) in its separate slot",
+    (zero) => {
+      const { container } = render(
+        <List>
+          <Cell title="Unread" trailingAction={zero} />
+        </List>,
+      );
+      expect(
+        container.querySelector(".lo-ui-cell__trailing-action"),
+      ).toHaveTextContent("0");
+      expect(
+        container.querySelector(".lo-ui-cell__actions"),
+      ).toBeInTheDocument();
+    },
+  );
   it("keeps row and trailing actions independently operable", () => {
     const open = vi.fn();
     const remove = vi.fn();

@@ -17,12 +17,13 @@ export function List({
 }: ListProps) {
   const Tag = `h${headingLevel}` as "h2" | "h3" | "h4" | "h5" | "h6";
   const generatedId = useId();
-  const labelId = label ? `${generatedId}-label` : undefined;
+  const hasLabel = Boolean(label) || label === 0 || label === 0n;
+  const labelId = hasLabel ? `${generatedId}-label` : undefined;
   const effectiveLabelledBy =
     ariaLabelledBy ?? (ariaLabel === undefined ? labelId : undefined);
   return (
     <section className="lo-ui-list-section">
-      {label && (
+      {hasLabel && (
         <Tag className="lo-ui-list-label" id={labelId}>
           {label}
         </Tag>
@@ -68,15 +69,22 @@ export const Cell = forwardRef<HTMLLIElement, CellProps>(function Cell(
   },
   ref,
 ) {
+  const hasLeading = Boolean(leading) || leading === 0 || leading === 0n;
+  const hasSubtitle = Boolean(subtitle) || subtitle === 0 || subtitle === 0n;
+  const hasTrailing = Boolean(trailing) || trailing === 0 || trailing === 0n;
+  const hasTrailingAction =
+    Boolean(trailingAction) || trailingAction === 0 || trailingAction === 0n;
   const content = (
     <>
-      {leading && <span className="lo-ui-cell__leading">{leading}</span>}
+      {hasLeading && <span className="lo-ui-cell__leading">{leading}</span>}
       <span className="lo-ui-cell__body">
         <span className="lo-ui-cell__title">{title}</span>
-        {subtitle && <span className="lo-ui-cell__subtitle">{subtitle}</span>}
+        {hasSubtitle && (
+          <span className="lo-ui-cell__subtitle">{subtitle}</span>
+        )}
       </span>
-      {trailing && <span className="lo-ui-cell__trailing">{trailing}</span>}
-      {onPress && !trailing && !trailingAction && (
+      {hasTrailing && <span className="lo-ui-cell__trailing">{trailing}</span>}
+      {onPress && !hasTrailing && !hasTrailingAction && (
         <svg
           className="lo-ui-cell__chevron"
           viewBox="0 0 20 20"
@@ -90,7 +98,7 @@ export const Cell = forwardRef<HTMLLIElement, CellProps>(function Cell(
 
   return (
     <li {...props} ref={ref} className={classes("lo-ui-cell", className)}>
-      {onPress || trailingAction ? (
+      {onPress || hasTrailingAction ? (
         <div className="lo-ui-cell__actions">
           {onPress ? (
             <button
@@ -104,7 +112,7 @@ export const Cell = forwardRef<HTMLLIElement, CellProps>(function Cell(
           ) : (
             <div className="lo-ui-cell__content">{content}</div>
           )}
-          {trailingAction && (
+          {hasTrailingAction && (
             <span className="lo-ui-cell__trailing-action">
               {trailingAction}
             </span>

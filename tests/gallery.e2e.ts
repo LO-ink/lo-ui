@@ -595,7 +595,10 @@ for (const scheme of ["light", "dark"] as const) {
     await page.goto("/");
     if (scheme === "dark")
       await page.getByRole("button", { name: "Dark theme" }).click();
-    const contrast = async (target: Locator, role: "text" | "border") =>
+    const contrast = async (
+      target: Locator,
+      role: "text" | "border" | "tab-text",
+    ) =>
       target.evaluate((element, role) => {
         const canvas = document.createElement("canvas");
         canvas.width = canvas.height = 1;
@@ -624,9 +627,14 @@ for (const scheme of ["light", "dark"] as const) {
             rgb(getComputedStyle(parent).backgroundColor),
             background,
           );
+        if (role === "tab-text")
+          background = blend(
+            rgb(getComputedStyle(element, "::before").backgroundColor),
+            background,
+          );
         const style = getComputedStyle(element);
         const foreground = blend(
-          rgb(role === "text" ? style.color : style.borderTopColor),
+          rgb(role === "border" ? style.borderTopColor : style.color),
           background,
         );
         const luminance = (channels: number[]) =>
@@ -664,6 +672,19 @@ for (const scheme of ["light", "dark"] as const) {
         await contrast(button, "text"),
         `${name} hover`,
       ).toBeGreaterThanOrEqual(4.5);
+    }
+    // Axe cannot resolve the selected tab's ::before fill.
+    for (const selected of ["All", "Storage"]) {
+      await page.getByRole("tab", { name: selected, exact: true }).click();
+      for (const name of ["All", "Permissions and device sensors", "Storage"]) {
+        expect(
+          await contrast(
+            page.getByRole("tab", { name, exact: true }),
+            "tab-text",
+          ),
+          `${name} with ${selected} selected`,
+        ).toBeGreaterThanOrEqual(4.5);
+      }
     }
     expect(
       await contrast(
@@ -704,6 +725,17 @@ for (const scheme of ["light", "dark"] as const) {
     expect(
       await save.evaluate((element) => getComputedStyle(element).borderRadius),
     ).toBe("999px");
+    await page.setViewportSize({ width: 320, height: 720 });
+    await page
+      .getByRole("button", { name: "Open dialog", exact: true })
+      .click();
+    // Native top-layer compositing can leave axe's contrast result incomplete.
+    expect(
+      await contrast(
+        page.getByRole("dialog").getByText("Close with Escape or the button."),
+        "text",
+      ),
+    ).toBeGreaterThanOrEqual(4.5);
   });
 }
 
@@ -1027,3 +1059,44 @@ test("native indeterminate checkboxes show a distinct mixed state for either che
     expect(states[3].equals(states[2])).toBe(true);
   }
 });
+
+for (const theme of ["light", "dark"] as const) {
+  test(`${theme} numeric zero metadata uses the styled trailing slot`, async ({
+    page,
+  }, testInfo) => {
+    await page.setViewportSize({ width: 320, height: 720 });
+    await page.goto("/");
+    if (theme === "dark")
+      await page.getByRole("button", { name: "Dark theme" }).click();
+    await page.evaluate(() => document.fonts.ready);
+    const row = page.getByRole("button", {
+      name: "Unread updates 0",
+      exact: true,
+    });
+    const trailing = row.locator(".lo-ui-cell__trailing");
+    await expect(trailing).toHaveText("0");
+    await expect(row.locator(".lo-ui-cell__chevron")).toHaveCount(0);
+    const style = await trailing.evaluate((element) => {
+      const computed = getComputedStyle(element);
+      const box = element.getBoundingClientRect();
+      const row = element.closest("button")!.getBoundingClientRect();
+      return {
+        color: computed.color,
+        maxWidth: computed.maxWidth,
+        width: box.width,
+        contained: box.left >= row.left && box.right <= row.right,
+      };
+    });
+    expect(style.maxWidth).toBe("40%");
+    expect(style.width).toBeGreaterThan(0);
+    expect(style.contained).toBe(true);
+    expect(style.color).not.toBe(
+      await row
+        .locator(".lo-ui-cell__title")
+        .evaluate((element) => getComputedStyle(element).color),
+    );
+    await row.screenshot({
+      path: testInfo.outputPath(`zero-metadata-${theme}.png`),
+    });
+  });
+}
