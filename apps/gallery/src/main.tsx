@@ -295,6 +295,14 @@ function App() {
             <div dir="rtl">
               <Switch label="RTL notifications" defaultChecked />
             </div>
+            {[0, 0n].map((zero, index) => (
+              <Stack key={index} data-testid={`zero-form-${index}`}>
+                <TextField label={zero} description={zero} error={zero} />
+                <TextArea label={zero} description={zero} error={zero} />
+                <Checkbox label={zero} description={zero} />
+                <Switch label={zero} description={zero} />
+              </Stack>
+            ))}
           </Stack>
         </Surface>
       </div>

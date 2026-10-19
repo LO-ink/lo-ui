@@ -4,7 +4,7 @@ import {
   type InputHTMLAttributes,
   type ReactNode,
 } from "react";
-import { classes } from "./utils.js";
+import { classes, hasContent } from "./utils.js";
 
 export type SelectionControlProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -40,7 +40,7 @@ function SelectionControl({
         <span className="lo-ui-selection__label" id={`${id}-label`}>
           {label}
         </span>
-        {description && (
+        {hasContent(description) && (
           <span
             className="lo-ui-selection__description"
             id={`${id}-description`}
@@ -79,7 +79,10 @@ export const Switch = forwardRef<HTMLInputElement, SelectionControlProps>(
               (props["aria-label"] ? undefined : `${id}-label`)
             }
             aria-describedby={
-              [props["aria-describedby"], description && `${id}-description`]
+              [
+                props["aria-describedby"],
+                hasContent(description) && `${id}-description`,
+              ]
                 .filter(Boolean)
                 .join(" ") || undefined
             }
@@ -115,7 +118,10 @@ export const Checkbox = forwardRef<HTMLInputElement, SelectionControlProps>(
               (props["aria-label"] ? undefined : `${id}-label`)
             }
             aria-describedby={
-              [props["aria-describedby"], description && `${id}-description`]
+              [
+                props["aria-describedby"],
+                hasContent(description) && `${id}-description`,
+              ]
                 .filter(Boolean)
                 .join(" ") || undefined
             }

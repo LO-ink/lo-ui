@@ -4,7 +4,7 @@ import {
   type ReactNode,
   type TextareaHTMLAttributes,
 } from "react";
-import { classes } from "./utils.js";
+import { classes, hasContent } from "./utils.js";
 
 export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: ReactNode;
@@ -26,8 +26,10 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ) {
     const generatedId = useId();
     const id = providedId ?? generatedId;
-    const descriptionId = description ? `${id}-description` : undefined;
-    const errorId = error ? `${id}-error` : undefined;
+    const hasDescription = hasContent(description);
+    const hasError = hasContent(error);
+    const descriptionId = hasDescription ? `${id}-description` : undefined;
+    const errorId = hasError ? `${id}-error` : undefined;
     return (
       <div className={classes("lo-ui-field", className)}>
         <label className="lo-ui-field__label" htmlFor={id}>
@@ -37,19 +39,19 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           {...props}
           ref={ref}
           id={id}
-          aria-invalid={error ? true : props["aria-invalid"]}
+          aria-invalid={hasError ? true : props["aria-invalid"]}
           aria-describedby={
             [describedBy, descriptionId, errorId].filter(Boolean).join(" ") ||
             undefined
           }
           className="lo-ui-field__input lo-ui-textarea"
         />
-        {description && (
+        {hasDescription && (
           <div className="lo-ui-field__description" id={descriptionId}>
             {description}
           </div>
         )}
-        {error && (
+        {hasError && (
           <div className="lo-ui-field__error" id={errorId}>
             {error}
           </div>

@@ -4,7 +4,7 @@ import {
   type InputHTMLAttributes,
   type ReactNode,
 } from "react";
-import { classes } from "./utils.js";
+import { classes, hasContent } from "./utils.js";
 
 export interface TextFieldProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -36,8 +36,10 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ) {
     const generatedId = useId();
     const id = providedId ?? generatedId;
-    const descriptionId = description ? `${id}-description` : undefined;
-    const errorId = error ? `${id}-error` : undefined;
+    const hasDescription = hasContent(description);
+    const hasError = hasContent(error);
+    const descriptionId = hasDescription ? `${id}-description` : undefined;
+    const errorId = hasError ? `${id}-error` : undefined;
     const describedBy = [ariaDescribedBy, descriptionId, errorId]
       .filter(Boolean)
       .join(" ");
@@ -58,7 +60,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           {...props}
           ref={ref}
           id={id}
-          aria-invalid={error ? true : props["aria-invalid"]}
+          aria-invalid={hasError ? true : props["aria-invalid"]}
           aria-describedby={describedBy || undefined}
           className={classes(
             "lo-ui-field__input",
@@ -66,12 +68,12 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             inputClassName,
           )}
         />
-        {description && (
+        {hasDescription && (
           <div className="lo-ui-field__description" id={descriptionId}>
             {description}
           </div>
         )}
-        {error && (
+        {hasError && (
           <div className="lo-ui-field__error" id={errorId}>
             {error}
           </div>
