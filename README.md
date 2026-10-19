@@ -55,53 +55,15 @@ Set `data-lo-theme="light"` or `data-lo-theme="dark"` for an explicit theme. App
 }
 ```
 
-The initial component set is `Button`, `TextField`, `Switch`, `Checkbox`, `List`, `Cell`, `AppIcon`, `EmptyState`, `Stack`, `Inline`, `Heading`, and `Text`.
+The components are `AppIcon`, `Button`, `Cell`, `Checkbox`, `Dialog`,
+`Disclosure`, `EmptyState`, `Heading`, `Inline`, `List`, `Progress`, `Stack`,
+`Surface`, `Switch`, `Tabs`, `Text`, `TextArea`, and `TextField`.
 
 Use `Cell.trailing` for read-only status or metadata that belongs to the row action. Use `Cell.trailingAction` for a switch, checkbox, button, or other independently operable control; it is rendered as a sibling so interactive elements are never nested.
 
-## Development
-
-```sh
-npm install
-npm run dev       # gallery at http://127.0.0.1:5173
-npm run typecheck
-npm test
-npx playwright install chromium webkit
-npm run test:browser
-npm run ci
-```
-
-`npm run build` emits package entrypoints and the production gallery. Package exports are limited to the documented JavaScript entrypoint and stylesheet; internal files are not public API.
-
-## License
-
-[MIT](./LICENSE)
-
-## Quality checks
-
-Run `make install` and `make ci` with Node.js 22.13 or newer. The same targets run
-in GitHub Actions. CI checks formatting, ESLint (including typed promises),
-TypeScript, dependency cycles and package boundaries, tests, published package
-contents, vulnerable dependencies and secrets. English documentation and comments
-are enforced; unfinished development notes and retired repository URLs fail CI.
-
-Coverage includes unimported production files and fails below 90% lines and
-statements, 90% functions, or 80% branches. Reports are uploaded as CI artifacts.
-
-`make browser` checks the gallery at 320px, keyboard controls, dark theme and
-reduced motion after installing Chromium and WebKit with
-`npx playwright install chromium webkit`.
-
-Repository policy checks require Python 3 for Python comment tokenization. YAML
-comments are parsed as YAML; embedded scripts and localized scalar values retain
-their own language. LO credentials are checked by the root Gitleaks configuration
-and a synthetic scanner regression before each repository scan.
-
 ## Native LO baseline
 
-Base canvas, surface, text and brand accent follow LO `reactnative-ui/src/theme/v2/colors.ts`. Buttons follow `ButtonWrapper`: 50px default height, pill corners and tinted secondary controls. Caption contrast and keyboard focus are web accessibility adaptations; the kit does not reproduce native glass effects . `--lo-color-accent-text` separates readable text accents from the filled brand color, especially in dark mode. Theme overrides should set it alongside `--lo-color-accent` when the host supplies a different brand.
-
-`Heading` accepts `level={2}` (levels 1–6) so galleries and nested sections preserve heading order. All components retain semantic HTML, accessible names and keyboard interactions.
+Base canvas, surface, text and brand accent follow LO `reactnative-ui/src/theme/v2/colors.ts`. Buttons follow `ButtonWrapper`: 50px default height, pill corners and tinted secondary controls. Caption contrast and keyboard focus are web accessibility adaptations; the kit does not reproduce native glass effects. `--lo-color-accent-text` separates readable text accents from the filled brand color, especially in dark mode. Theme overrides should set it alongside `--lo-color-accent` when the host supplies a different brand.
 
 The brand accent remains `#5969FC`. Filled web controls use
 `--lo-color-accent-fill` (`#5060E8`) so normal-size white labels pass WCAG AA;
@@ -111,7 +73,10 @@ list separators. These are accessibility adaptations of the native palette.
 Custom themes must provide equivalent foreground, fill, hover, and boundary
 contrast; overriding the brand accent alone does not replace those roles.
 
-`List` and `EmptyState` accept `headingLevel` (2–6, default 2) for embedded section titles.
+## Component behavior
+
+`Heading` accepts `level` (1–6, default 1). `List` and `EmptyState` accept
+`headingLevel` (2–6, default 2) for embedded section titles.
 
 `EmptyState` follows native `sections/SectionEmptyListInformation.tsx`: a solid
 subtle border, 22 px corners, a 26 px title and height determined by its content.
@@ -140,18 +105,6 @@ body state. The chevron is decorative and keyboard behavior stays native.
 </Disclosure>
 ```
 
-The design tokens ship LO Pro UI, LO Pro Display and LO Pro Mono as WOFF2,
-with the supplied weights and verified italic faces. Importing the UI stylesheet loads the
-font declarations; browsers download only the faces used by the page. UI text
-uses LO Pro UI, headings use LO Pro UI Bold, and code uses LO Pro Mono. The font
-assets retain LO's embedded license in `dist/fonts/FONT-LICENSE.txt`; that license
-limits their use to LO products and the LO ecosystem. The MIT license covers the
-library code and does not relicense the fonts.
-
-The supplied Mono BoldItalic file has upright glyph metadata and is excluded
-from the web font declarations. The remaining 47 faces preserve their original
-glyphs, character mappings, metrics and embedded license metadata.
-
 `Text` supports inline, emphasis and code/pre semantics through `as`, shared
 regular/medium/bold weights, success/error tones, title/display sizes and the
 three LO font families. Consumers can format report data without defining a
@@ -174,3 +127,43 @@ second typography system.
 ```
 
 Outlined `TextField` geometry follows LO inputs: 44 px minimum height, 10 px corners and padding. Borders retain the accessible contrast token. `variant="search"` provides the compact filled search appearance. `Surface` defaults to a 10 px inset; explicit spacing tokens remain supported.
+
+## Fonts and license
+
+The design tokens ship LO Pro UI, LO Pro Display and LO Pro Mono as WOFF2,
+with the supplied weights and verified italic faces. Importing the UI stylesheet loads the
+font declarations; browsers download only the faces used by the page. UI text
+uses LO Pro UI, headings use LO Pro UI Bold, and code uses LO Pro Mono. The font
+assets retain LO's embedded license in `dist/fonts/FONT-LICENSE.txt`; that license
+limits their use to LO products and the LO ecosystem. The [MIT license](./LICENSE) covers the
+library code and does not relicense the fonts.
+
+The supplied Mono BoldItalic file has upright glyph metadata and is excluded
+from the web font declarations. The remaining 47 faces preserve their original
+glyphs, character mappings, metrics and embedded license metadata.
+
+## Development
+
+Use Node.js 22.13 or newer and Python 3 (required by repository policy checks).
+
+```sh
+make install
+npm run dev       # gallery at http://127.0.0.1:5173
+make ci
+npx playwright install chromium webkit
+make browser
+```
+
+`npm run build` emits package entrypoints and the production gallery. Package
+exports are limited to the documented JavaScript entrypoint and stylesheet;
+internal files are not public API.
+
+CI checks formatting, ESLint, TypeScript, dependency boundaries, packed React
+18/19 consumers, vulnerable dependencies and secrets. Coverage includes
+unimported production files and requires 90% lines/statements/functions and
+80% branches. The browser gate checks the gallery at 320px, keyboard controls,
+dark theme and reduced motion in Chromium and WebKit.
+
+Documentation and comments must be in English; unfinished development notes and
+retired repository URLs fail policy checks. Gitleaks uses the repository
+configuration and a synthetic credential-scanner regression.
