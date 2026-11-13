@@ -46,6 +46,21 @@ it("minimal empty states omit optional content", () => {
   expect(container.querySelector("button")).toBeNull();
 });
 
+it("keeps zero-valued empty-state content in its semantic slots", () => {
+  const { container } = render(
+    <EmptyState title="No items" description={0} icon={0} action={0} />,
+  );
+  expect(
+    container.querySelector(".lo-ui-empty-state__description"),
+  ).toHaveTextContent("0");
+  expect(container.querySelector(".lo-ui-empty-state__icon")).toHaveTextContent(
+    "0",
+  );
+  expect(
+    container.querySelector(".lo-ui-empty-state__action"),
+  ).toHaveTextContent("0");
+});
+
 it("app icons preserve image descriptions and support a text avatar", () => {
   const { rerender } = render(
     <AppIcon src="/avatar.png" alt="Garden" imageProps={{ loading: "lazy" }} />,
