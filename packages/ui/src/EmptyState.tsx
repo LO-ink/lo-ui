@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from "react";
-import { classes } from "./utils.js";
+import { classes, hasContent } from "./utils.js";
 
 export interface EmptyStateProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -24,16 +24,18 @@ export function EmptyState({
   const Tag = `h${headingLevel}` as "h2" | "h3" | "h4" | "h5" | "h6";
   return (
     <div {...props} className={classes("lo-ui-empty-state", className)}>
-      {icon && (
+      {hasContent(icon) && (
         <div className="lo-ui-empty-state__icon" aria-hidden="true">
           {icon}
         </div>
       )}
       <Tag className="lo-ui-empty-state__title">{title}</Tag>
-      {description && (
+      {hasContent(description) && (
         <p className="lo-ui-empty-state__description">{description}</p>
       )}
-      {action && <div className="lo-ui-empty-state__action">{action}</div>}
+      {hasContent(action) && (
+        <div className="lo-ui-empty-state__action">{action}</div>
+      )}
     </div>
   );
 }
